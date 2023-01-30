@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         // 5.容器内容
         child: const Text(
           "你好Flutter",
-          style: TextStyle(color: Colors.blue, fontSize: 20),
+          style: TextStyle(color: Colors.black, fontSize: 20),
         ),
       ),
     );
@@ -67,10 +67,25 @@ class MyButton extends StatelessWidget {
     return Container(
       width: 200,
       height: 40,
+      alignment: Alignment.center,
       // margin: const EdgeInsets.all(10),
       margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-      decoration: const BoxDecoration(
+      // padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
+      decoration: BoxDecoration(
         color: Colors.blue,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      // 容器位移
+      transform: Matrix4.translationValues(0, 30, 0),
+      // 旋转
+      // transform: Matrix4.rotationZ(0.2),
+      // child后面不可以添加容器属性，否则会提示格式错误
+      child: const Text(
+        "按钮",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+        ),
       ),
     );
   }
