@@ -1,0 +1,186 @@
+1.常量构造函数：
+	1.1属性必须用final声明；
+	1.2函数必须用const声明，属性必须都用final声明；
+	1.3调用必须用const调用，否则视为普通函数；
+	1.4常量构造函数，没有函数体。
+	
+2.工厂构造函数：
+	2.1工厂构造函数必须用factory声明；
+	2.2工厂构造函数不能用this关键字；
+	2.3工厂构造函数不能直接实例化；
+	2.4单例模式举例：
+	class Person(){
+		String name;
+		//静态属性instance 类型为Person
+		static Person instance;
+		//工厂构造函数
+		factory Person(String name = "刘备"){
+			if(Person.instance == null){
+				//第一次实例化
+				Person.instance = new Person.newSelf(name);
+			}else{
+				return Person.instance;
+			}
+		}
+	}
+	
+3.访问修饰符：
+	3.1 dart中默认是公开的；
+	3.2 下划线为私有(私有属性如果在同一个作用域，不起作用)；
+	
+4.GET声明的方法：
+	4.1 GET声明的方法，不能加()，访问GET方法和访问属性一样
+5.SET声明的方法：
+	5.1可以通过SET修改属性
+	
+6.初始化列表
+	6.1第一种初始化描述：
+	int height;
+	int width;
+	
+	Rect({int height = 2,int width = 10}){
+		//需要把初始化参数 赋值 给对应的属性
+		this.height = height;
+		this.width = width;
+		print("${this.height}----${this.width}");
+	}
+	
+	6.2第二种初始化描述
+	int height;
+	int width;
+	
+	Rect() : height = 2, width = 10 {
+		//不需要赋值属性
+		print("${this.height}----${this.width}");
+	}
+	
+	6.3第三种初始化列表的巧妙用法
+	class Point{
+		duoble x , y, z ;
+		
+		Point(this.x,this.y,this.z);
+		
+		//初始化列表的特殊用法
+		Point.twoD(this.x,this.y) : this(x ,y , 0);
+	}
+	
+7.static
+	7.1静态方法 不能访问 非静态属性；
+	7.2静态方法中不能使用 this;
+	7.3可以通过 类名称 直接访问 静态属性、静态方法；
+	7.4不能通过 实例化对象 去 访问静态属性、静态方法；
+	7.5实例化对象 可以通过类里面 非静态方法 引用静态属性、静态方法；
+	7.6静态方法作用： 不需要实例化，可以直接通过类引用静态属性和方法，节省开辟空间的资源。
+	
+8.元数据：
+	8.1 元数据，以@开头；
+	8.2 @override	#重写
+		子类继承父类，子类重写父类同名的方法
+		
+	8.3 @required	#必填
+		用来只是必填参数
+		
+	8.4 @deprecated	#弃用
+		表示当前的类或者方法不再建议使用。
+		当前方法可以引用，但是会有删除线标识，不影响使用。
+	
+9.继承
+	9.1 子类通过 extends 关键字 继承父类；
+	9.2 私有属性、方法 不能继承；
+	9.3 子类可以通过 @override	#标记重写方法；
+	9.4 子类通过 super 关键字 引用父类的属性和方法；
+		super.say();	#调用父类中的say()方法
+		son(String job) : super(job);	#初始化列表，父类传参，子类必须传参，继承普通的构造函数
+
+10.抽象类
+	10.1 抽象类 通过 abstract 关键字 修饰的类；
+	10.2 抽象类的作用：充当普通类的模板，约定一些属性和方法；
+	10.3 普通类中 不可以有 抽象方法；
+	10.4 抽象类 不能被实例化(不能new)；
+	10.5 抽象类 可以被 普通类继承；
+		如果普通类继承了抽象类，就必须实现 抽象类 中的所有抽象方法。
+		
+11.接口
+	11.1 类可以 用 implements 实现多个接口，多个接口用逗号隔开；
+	11.2 接口一般为抽象类(相当于一些小零件)；
+	11.2 调用接口举例：
+	//接口1：抽象类，约定了内核
+	abstract class Processor{
+		String cores;
+		arch(String name)
+	}
+	//接口2：抽象类，约定了相机
+	abstract class Camera{
+		String resolution;
+		brand(String name)
+	}
+	
+	//手机类：调用接口1、接口2
+	class Phone implements Processor,Camera{
+		//1.重现接口的所有属性
+		@override
+		String cores;
+		@override
+		String resolution;
+		//3.构造函数传参
+		Phone(this.cores,this.resolution);
+		//2.重现接口的所有方法
+		@override
+		arch(String name){
+			print("芯片制程：“ + name);
+		}
+		@override
+		brand(String name){
+			print("相机品牌" + name);
+		}
+	
+	}
+	
+	void main(){
+		//具体实例化-得到手机对象
+		Phone p = new Phone("4核","3000万");
+		//调用手机对应的方法
+		p.arch("5nm");
+		p.brand("莱卡");
+	}
+	
+12.混入 Mixin
+	12.1 混入的两种声明方式：
+		class MixinA{.....}
+		mixin MixinB{.....}
+		
+	12.2 混入的作用
+		弥补单继承的缺陷，可以提高代码的复用效率；
+		普通类可以通过 with 来使用混入
+			class MyClass with MixinA,MixinB {.....}
+		使用多个混入时，后引入的混入会覆盖之前混入中的重复的内容
+			MixinA 和 MixinB 都有 hello()方法，MyClass 会使用 MixinB 中的方法；
+	12.3 一旦继承了，就不能用作混入；	
+	12.4 用作混入的类，不能拥有构造函数：
+		class MixinA{
+			String name = "MixinA“；
+			MixinA();	//会报错
+		}
+	12.5 建议使用 Mixin 来声明混入类，不建议使用 class 来声明混入的类。
+	
+13.泛型
+	13.1 泛型函数（约定参数类型、约定返回值类型）
+	T getData<T>(T value){
+		return value;
+	}
+	
+	13.2 泛型函数（只约定参数类型、不约定返回值类型）
+	getData<T>(T value){
+		return value;
+	}
+	
+	void main (){
+	
+		print(getData<int>(20));
+		print(getData<String>("你好"));
+	
+	}
+	
+	13.3 泛型类
+	
+	

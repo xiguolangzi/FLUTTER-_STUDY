@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,7 +11,7 @@ void main() {
       // body: const MyApp(),
       // 6. 调用多个组件，用列 colunm
       body: Column(
-        children: const [MyApp(), MyButton()],
+        children: const [MyApp(), MyButton(), MyTest()],
       ),
     ),
   ));
@@ -76,7 +78,7 @@ class MyButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       // 容器位移
-      transform: Matrix4.translationValues(0, 30, 0),
+      transform: Matrix4.translationValues(0, 10, 0),
       // 旋转
       // transform: Matrix4.rotationZ(0.2),
       // child后面不可以添加容器属性，否则会提示格式错误
@@ -86,6 +88,45 @@ class MyButton extends StatelessWidget {
           color: Colors.white,
           fontSize: 20,
         ),
+      ),
+    );
+  }
+}
+
+class MyTest extends StatelessWidget {
+  const MyTest({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 200,
+      height: 200,
+      margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+      decoration: BoxDecoration(
+          color: Colors.yellow, borderRadius: BorderRadius.circular(20)),
+      child: const Text(
+        "你好我是flutter你好我是flutter你好我是flutter你好我是flutter你好我是flutter你好我是flutter你好我是flutter你好我是flutter",
+        // 文本居左显示
+        textAlign: TextAlign.left,
+        // 溢出部分显示几个点
+        overflow: TextOverflow.ellipsis,
+        // 最大显示行数
+        maxLines: 2,
+        style: TextStyle(
+            fontSize: 20,
+            color: Colors.red,
+            // 加粗
+            fontWeight: FontWeight.w900,
+            // 倾斜
+            fontStyle: FontStyle.italic,
+            // 行间距
+            letterSpacing: 2,
+            // 下划线
+            decoration: TextDecoration.underline,
+            // 下划线颜色
+            decorationColor: Colors.blue,
+            // 下划线样式
+            decorationStyle: TextDecorationStyle.dashed),
       ),
     );
   }
