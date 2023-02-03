@@ -78,7 +78,7 @@
 		子类继承父类，子类重写父类同名的方法
 		
 	8.3 @required	#必填
-		用来只是必填参数
+		用来指示必填参数
 		
 	8.4 @deprecated	#弃用
 		表示当前的类或者方法不再建议使用。
@@ -182,5 +182,109 @@
 	}
 	
 	13.3 泛型类
+	
+	13.4 泛型接口
+	//接口1：抽象类，约定了内核
+	abstract class Processor<T>{
+		String cores;
+		arch(String name)
+	}
+	//接口2：抽象类，约定了相机
+	abstract class Camera<T>{
+		String resolution;
+		brand(String name)
+	}
+	
+	//手机类：调用接口1、接口2
+	class Phone<T> implements Processor<T>,Camera<T>{
+		//1.重现接口的所有属性
+		@override
+		String cores;
+		@override
+		String resolution;
+		//3.构造函数传参
+		Phone(this.cores,this.resolution);
+		//2.重现接口的所有方法
+		@override
+		arch(String name){
+			print("芯片制程：“ + name);
+		}
+		@override
+		brand(String name){
+			print("相机品牌" + name);
+		}
+		
+14.枚举
+	14.1 枚举通过 enum 关键字声明
+	14.2 枚举格式：
+		enum Color {red , green ,blue}
+	14.3 枚举是数量固定的常量值（有限数量的常量）
+	14.4 获取枚举列表
+		List<color>colors1 = Color.values;
+		colors2 = Color.values;
+	14.5 可以 通过 index  获取枚举值得索引
+		assert(Color.green.index == 1);
+		print(colors1[0])
+		colors1.forEach((element){ print("value = $element,  index = ${element.index}")})
+		
+15.库与生态
+	15.1 dart库 ：https://pub.dev    库管理：pubspec.yaml   管理命令：pub
+	
+	15.2自定义库
+		15.2.1声明库：通过 library 来生明自定义库；
+		15.2.2 library 关键字声明的库名称建议使用：小写字母+下划线，驼峰在flutter中会报错
+		15.2.3 通过 import 来引用
+		15.2.4 举例：
+		# 声明 定义自定义库
+		library my_custom；
+		
+		class MyCustom{
+			String name = "MyCustom";
+			static num version = 1.0
+			
+			void info(){
+			   print("我是自定义库")；
+			}
+		}
+		#引用自定义库
+		import "./MyCustom"
+		
+	15.3 系统库
+		15.3.1引入系统库
+			import "dart:math"
+		
+	15.4 引入部分库
+		15.4.1 包含引入 show ，show 后面表示包含引用的内容
+		common.dat
+			void f1(){
+				print("f1");
+			}
+			
+			void f2(){
+				print("f1");
+			}
+			
+			void f3(){
+				print("f1");
+			}
+		
+		import "./common.dart" show fi,f3;
+		
+		void main(){
+			f1();
+			f2();  #报错，因为f2没有在show后面绑定，所有找不到
+			f3();
+		}
+		
+		
+		
+		15.4.2 排除引入 hide ， hide 后面表示隐藏引用的内容
+		import "./common.dart" hide fi,f3;
+		
+		void main(){
+			f1();   #报错，因为f1在hide后面被隐藏，所有找不到
+			f2();  
+			f3();   #报错，因为f3在hide后面被隐藏，所有找不到
+		}
 	
 	
