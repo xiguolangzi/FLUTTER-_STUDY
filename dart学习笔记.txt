@@ -286,5 +286,202 @@
 			f2();  
 			f3();   #报错，因为f3在hide后面被隐藏，所有找不到
 		}
+		
+	15.5 延迟引入
+		15.5.1 延迟引入关键字 deferred ,延迟引入只是代表关联关系，并没有真正的加载，加载需要 loadlibrary() 方法
+		15.5.2 举例说明：
+			impor "./common.dart" deferred as fun;
+			
+			void main(){
+				f1;  #报错，fun没有加载
+			}
 	
+		15.5.3 使用方法举例：
+			impor "./common.dart" deferred as fun;
+			
+			#future ... async { 异步类}，返回future
+			future great() async {
+				# await 异步等待执行，loadlibrary() 加载fun库
+				await fun.loadlibrary();
+				fun.f1;
+			}
+			
+			void main(){
+				print("1");
+				# great 为异步调用
+				great();
+				print("2");
+				print("3");
+			}
+
+	15.6 part 与 part of
+		15.6.1 作用：分库 组合成 主库 ,引入主库，可以同时实例化分库中的方法
+		15.6.2 举例：
+			####### 主库
+			library phone
+			
+			#与分库建立联系
+			part "Camera.dart";
+			part "pubspec.dart";
+			
+			
+			
+			####### 分库1
+			part of phone; #主库phone的一部分
+			
+			class Camera{
+				String name = "摄像头"；
+				
+				void info(){
+					print("我是摄像头")
+				}
+			}
+			
+			####### 分库2
+			part of phone; #主库phone的一部分
+			
+			class pubspec{
+				String name = "处理器"；
+				
+				void info(){
+					print("我是处理器")
+				}
+			}
+			
+16 扩展 extension
+	16.1 扩展的作用
+		可以扩展类的功能
+	16.2 举例：
+		class Person{
+			say (){
+				print("hello word");
+			}
+		}
+		
+		#扩展Preson类
+		extension studentPerson on Person{
+			study(){
+				print("study hard");
+			}
+		}
+		
+		#引用扩展内容
+		void main(){
+			s = Person.study();
+			print(s);
+		}
+		
+17. call 
+	17.1 call 方法，就是类可以当做函数一样使用
+	17.2 举例：
+	 class function{
+		fun(){
+			print("123456")
+		}
+		# call 方法
+		call(String num){
+			print("654321")
+		}
+	 }
+	 
+	 void main(){
+		# 实例化
+		var p = function();
+		#直接传参调用call 方法
+		p("911");
+	 }
+	 
+18.noSuchMethod 
+	18.1 作用：调用类没有的方法，给出特殊提示；
+	18.2 举例：
+	class Person {
+		say(){
+			print("Say something")
+		}
+		@override
+		noSuchMethod(Invocation invocation){
+			print("未定义的方法")；
+			return super.noSuchMethod(invocation);
+		}
+	}
 	
+	void main(){
+		#调用不存在的方法需要dynamic类型来实例化
+		dynamic p = Person();
+		print(p.say());
+		print(p.stuty()); #会抛出noSuchMethod给出的特殊错误提示。
+	
+	}
+	
+19.hashCode 
+	19.1 hashCode是dart对象的唯一标识，表现为一串数字；
+	19.2 可以通过.hashCode 来获取hashCode的值
+	
+20.typedef 声明类型（别名类型）
+	20.1 声明类型（别名类型）
+	typedef mathtype (int a , int b);
+	这样 a,b 的类型都是 mathtype，也都是 int!
+	
+21.单线程
+	21.1 单线程包括：
+		主线程(调用栈)、微任务(微任务队列)、宏任务(时间队列)
+		
+22.Isolate 多线程
+	22.1 多线程是以隔离的方式存在，互补影响，使用完自动释放，不会出现死锁现象；
+	
+	22.2 线程方法
+		Isolate.spawn()		#创建线程
+		
+		Isolate.spawnUri()	#创建线程
+		
+		Isolate.pause()		#暂停线程
+		
+		Isolate.kill()		#杀死线程
+	22.3 举例：
+		#引入线程库
+		import "dart:isolate";
+		
+		void main(){
+			multiThread();
+		}
+		void multiThread(){
+			print("multiThread start");
+			
+			#打印当前主线程
+			print("当前的线程是："+Isolate.current.debugName);
+			
+			#创建线程单向接收
+			ReceivePort r1 = ReceivePort();
+			#创建线程单向发送
+			SendPort p1 = r1.sendPort;
+			
+			#创建新线程
+			Isolate.spawn(newThread,p1);
+			
+			#监听新线程发送的消息
+			r1.listen((msg){
+				print("来自新线程的消息：" + msg.toString());
+				r1.close;
+			})
+			
+			print("multiThread end");
+		}
+		
+		void newThread(SendPort p1){
+			print("新线程的线程是："+Isolate.current.debugName)；
+			p1.send("新线程发送的消息123")
+		}
+		
+	22.4 封装发送消息函数
+		Future sendToReceive(SendPort port,msg){
+			print("发送消息给新线程" + msg.toString);
+			ReceivePort response = ReceivePort();
+			port.send([msg,response.sendPort]);
+			return response.first;
+		}
+		
+23 Future 异步处理
+	23.1 Future 有三种状态：
+		未完成	（Uncompleted）
+		已完成，并返回数据	（completed with data）
+		已完成，但返回报错	（completed with error）
