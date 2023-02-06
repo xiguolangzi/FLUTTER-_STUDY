@@ -836,4 +836,25 @@
 		}
 		
 	26.3 递归生成器
+		main(){
+			final Iterable<int> s = getRange(1,6);
+			print("start");
+			s.forEach(element){
+				print(element);
+			})
+			print("end");
+		}
 		
+		
+		Iterable<int>getRange(int start,int end) sync* {
+			if(start <= end){
+				yield start;
+				#实现递归调用-方式1 for
+				for (final val in getRange(start+1,end)){
+					yield val;
+				#循环遍历返回-方式2 yield*
+				yield* getRange(start+1,end);
+					
+				}
+			}
+		}
