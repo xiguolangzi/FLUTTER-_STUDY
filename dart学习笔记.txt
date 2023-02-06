@@ -485,3 +485,355 @@
 		未完成	（Uncompleted）
 		已完成，并返回数据	（completed with data）
 		已完成，但返回报错	（completed with error）
+		
+	23.2 创建 Future 实例化
+		void main(){
+			#1.实例化
+			final f = Future((){
+				print("Create the future");
+				return 132;
+			})
+			#2.返回值
+			f.then((value)=> print(value));
+			print("Done with main");
+		}
+		
+	23.3 延迟
+		void main(){
+			Future.delayed(
+				#延迟时间
+				Duration(seconds: 2 ),
+				#异步回调函数
+				(){
+					return 123;
+				}
+			#返回结果 .then	
+			).then((value){
+				#返回结果处理函数
+				print(value);
+			#返回报错信息
+			}).catchError((err){
+				print(err);
+			},test:(error)=>error.runtimeType == String,
+			#调用完成后的收尾工作(不管错误与否，结束后必须返回的处理)
+			).whenComplete(
+				(){
+				print("All Completed");
+				}
+			)
+		}
+		
+	23.4 执行顺序
+		Future(回调函数) 	#默认是异步任务，会被丢到事件队列(event queue)中的所有抽象方法。
+		Future.sync(回调函数) 	#同步任务，同步执行，不会被丢到异步队列中；
+		Future.microtask(回调函数) 	#会被丢到微任务中，优先级高于事件队列；
+		Future.value("Future.value").then((value)=>print(value));  #value里面的值是常量，相当于微任务
+		
+	23.5 多任务
+		23.5.1 Future.any(futures)
+			返回最先完成的结果，其他任务抛弃
+			main(){
+				print("start");
+				
+				Future.any([
+					Future.delayed(Duration(seconds:4)).then((value){print("future 4"); return 4}),
+					Future.delayed(Duration(seconds:2)).then((value){print("future 2"); return 2}),
+					Future.delayed(Duration(seconds:3)).then((value){print("future 3"); return 3}),
+				]).then((value)=>print("多个任务执行的结果是：" + value.toString())) #返回的结果是最快的 future 2
+				
+				print("end");			
+			}
+		
+		23.5.2 Future.wait(futures)
+			等所有都执行完成后，返回所有结果
+			main(){
+				print("start");
+				
+				Future.wait([
+					Future.delayed(Duration(seconds:4)).then((value){print("future 4"); return 4}),
+					Future.delayed(Duration(seconds:2)).then((value){print("future 2"); return 2}),
+					Future.delayed(Duration(seconds:3)).then((value){print("future 3"); return 3}),
+				]).then((value)=>print("多个任务执行的结果是：" + value.toString())) #返回的结果是所有结果的列表
+				
+				print("end");			
+			}
+		
+		23.5.3 Future.doWhile()
+		
+		
+		23.5.4 Future.ForEach()
+			main(){
+				Future.forEach(
+					[1,2,3],(element){
+						return Future.delayed(Duration(seconds : 2),(){
+							print("当前元素：$element");
+							return element.toString() + "_AAA";
+						}).then((value){
+							print("最后的结果是：" + value);
+						})
+					}
+				)
+			}
+	
+	23.6 FutureBuilder
+		23.6.1 FutureBuilder 是一个类，需要引入三方库： import"package:flutter/material.dart"
+		23.6.2 FutureBuilder 中有三个属性
+			future
+			initialData
+			builder(context,snapshot)
+				snapshot.connectionState	#链接状态
+					ConnectionState.none	#未链接
+					ConnectionState.waiting	#已连接等待交互
+					ConnectionState.active	#正在交互
+					ConnectionState.done	#异步任务完成
+				snapshot.hasData
+					snapshot.data	#成功返回数据
+				snapshot.hasError
+				
+		23.6.3 举例：
+		FutureBuilder(
+			future: getData, # 调用 future 函数
+			builder:(context,snapshot){
+				swich(snapshot.connectionState){
+					case ConnectionState.none:
+					case ConnectionState.waiting:
+					case ConnectionState.active:
+						print("waiting");
+						return null;
+					case ConnectionState.done:
+						if(snapshot.hasError){
+							print("error");
+							return null;
+						}else{
+							print("done");
+							return snapshot.data;
+						}
+				}
+			return Text("aaa");
+			}
+		);
+		
+24 Stream
+	24.1 Dart 中的异步数据流，可以连续返回多个值；
+	24.2 Future 只能返回一个值；
+	24.3 Stream 相关的API
+		listen	#数据监听
+		error	#接受失败状态
+		done	#接受结束状态
+		
+	24.4 Stream 类型
+		Single-Subscription	#单一订阅
+			只能listen一次
+			
+		Broadcast	#广播
+			可以被监听多次
+	24.5 Stream.fromFuture
+		Future<String>getData(){
+			return Future.delayed(Duration(seconds : 2),(){
+				return "当前时间：${DateTime.now()}";
+			})
+		}
+		
+		main(){
+			Stream.fromFuture(getData())
+			.listen((event){print("Stream.fromFuture: $event");})
+			.onDone((){print("Stream.fromFuture done");});
+		}
+		
+	24.6 Stream.fromFutures
+		Future<String>getData(){
+			return Future.delayed(Duration(seconds : 2),(){
+				return "当前时间：${DateTime.now()}";
+			})
+		}
+		
+		main(){
+			var data = [getData(),getData(),getData(),getData()]
+			Stream.fromFutures(data)
+			.listen((event){print("Stream.fromFutures: $event");})
+			.onDone((){print("Stream.fromFutures done");});
+		}
+		
+	24.7 Stream.fromIterable 遍历
+		Future<String>getData(){
+			return Future.delayed(Duration(seconds : 2),(){
+				return "当前时间：${DateTime.now()}";
+			})
+		}
+		
+		main(){
+			var data = [1,2，“hello”,true,null]
+			Stream.fromIterable(data)
+			.listen((event){print("Stream.fromIterable: $event");})
+			.onDone((){print("Stream.fromIterable done");});
+		}
+		
+	24.8 Stream.periodic 指定时间执行指定的操作
+		main(){
+			Duration interval = Duration(seconds:1);
+			
+			#如果不设置periodic 第二个参数，结果返回null
+			Stream<int> stream = Stream<int>.periodic(interval);
+			stream.listen((event){
+				print("stream.periodic: $event")；
+			}).onDone((){
+				print("Stream.periodic done")；
+			})
+			
+			#设置periodic 第二个参数,则返回具体的数据
+			Stream<int> stream = Stream<int>.periodic(interval,(data)=>data);
+			#不截断会一直不停输出
+			stream.listen((event){
+				print("stream.periodic: $event")；
+			}).onDone((){
+				print("Stream.periodic done")；
+			})
+			
+			#设置periodic 第二个参数,则返回具体的数据
+			Stream<int> stream = Stream<int>.periodic(interval,(data)=>data);
+			#终止数据流,take(5)只拿5条数据，执行到第六条时终止
+			stream.take(5).listen((event){
+				print("stream.periodic: $event")；
+			}).onDone((){
+				print("Stream.periodic done")；
+			})
+		
+		}
+		
+	24.9 API操作 Stream
+		24.9.1 take(5) / takeWhile()
+		Stream<int> stream = Stream<int>.periodic(interval,(data)=>data);
+			#终止数据流,take(5)只拿5条数据，执行到第六条时终止
+			stream.take(5).listen((event){ 
+				print("stream.periodic: $event")；
+			}).onDone((){
+				print("Stream.periodic done")；
+			})
+		
+		24.9.2 where() #条件过滤
+		
+		24.9.3 distinct()	#去掉连续重复的值
+		
+		24.9.4 skip(2) / skipWhile()	#跳过最前面的2个数据
+		
+		29.9.5 map()
+			Stream<int> streamData = Stream<int>.periodic(interval,(data)=>data+1);
+			
+			streamData.takeWhile((element){
+				return element <= 3;
+			}).map((event){
+				print(" map -> $event -> ${event*100}");
+				return event*100;
+			}).listen((event){
+				print(" listen -> $event");
+			}).onDone((){
+				print("Done 结束");
+			})
+		
+		29.9.6 toSet() / toList() / toString()
+		
+		29.9.7 length / first / last
+		
+	24.10 StreamBuilder 在FLUTTER环境的一个类
+		
+		
+		
+25 Async / Await
+	Async	#标记函数是一个异步函数，其返回值类型为Future
+	Await	#等待某个异步方法执行完毕
+		用来等待耗时操作的返回结果，这个操作会阻塞后面的代码
+			
+	25.1 Await 的作用：等待执行
+		test(){
+			return Future.delayed(Duration(seconds:2),(){
+				print("Future.delayed");
+				return 123;
+			})
+		}
+		
+		main() async{
+			print("start");
+			
+			#等待 test 执行完，才执行end
+			await test();
+			
+			print("end");
+		}
+	25.2 异步函数改造
+		getUserInfo(){
+			return Future.delayed(Duration(seconds:2),(){
+				print("UserInfo");
+				return 1;
+			})
+		}
+		
+		getOrderInfo(){
+			getUserInfo().then((value){
+				print("用户信息：$val");
+			})
+		}
+		
+		getOrderInfo() async{
+			var id = await getUserInfo();
+			print(id);
+			})
+		}
+		
+		
+26 Generator 生成器
+	26.1 同步生成器（stnc + yield）
+		-- 使用sync*,返回的是 Iterable 对象；
+		-- yield 会返回 moveNext 为 ture , 并等待 moveNext 指令；
+		-- yield = return + continue
+		
+		main(){
+			# 返回是可迭代的内容 iterator<int>
+			var res = getNumber(5).iterator;
+			#res.moveNext(); print(res.current);	#结果是0
+			#res.moveNext(); print(res.current);	#结果是1
+			#res.moveNext(); print(res.current);	#结果是2
+			
+			while(res.moveNext()){
+				print(res.current);
+			}
+		
+		}
+		
+		#声明同步生成器函数 sync*
+		getNumber(int n) sync* {
+			print("start");
+			
+			int i =0;
+			while (i<n){
+				#返回
+				yield i++
+			}
+			
+			print("end");
+		}
+	26.2 异步生成器
+		
+		main(){
+			# 返回的是数据流 Stream<int>
+			final Stream<int> s = asyncCountDown(5);
+			
+			print("start");
+			
+			s.listen((event){
+				print(event);	#结果是：5 4 3 2 1 
+			}).onDone((){
+				print("Done");
+			})
+			
+			print("end");
+		}
+		
+		#声明异步生成器函数 async*
+		Stream<int> asyncCountDown(int n) async* {
+			while(n>0){
+				yield n--;
+			}
+		}
+		
+	26.3 递归生成器
+		
