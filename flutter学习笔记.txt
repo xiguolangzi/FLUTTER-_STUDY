@@ -1,0 +1,89 @@
+1.VScode 快捷键
+	#importM
+	import 'package:flutter/material.dart';
+	
+	#statelessW
+	class name extends StatelessWidget {
+	  const name({super.key});
+
+	  @override
+	  Widget build(BuildContext context) {
+		return Container();
+	  }
+	}
+	
+2.main.dart 基本使用 runApp()驱动
+	// 2.main入口函数
+	void main() {
+	  runApp(const Center(
+		// 3.text组件
+		child: Text(
+		  "你好 Flutter",
+		  // 4.text必须给定方向属性赋值
+		  textDirection: TextDirection.ltr,
+		  // 5.style属性
+		  style: TextStyle(
+			  // textStyle属性
+			  color: Colors.red,
+			  fontSize: 50),
+		),
+	  ));
+	}	
+3.main.dart 基本使用
+	void main() {
+	  // 1.所有应用都需要使用MaterialApp,根组件
+	  runApp(MaterialApp(
+		// 2.Material 布局结构的基本实现 Scaffold
+		home: Scaffold(
+		  // 3.Scaffold-appBar:界面顶部的一个AppBar
+		  appBar: AppBar(title: const Text("你好 Flutter!!")),
+		  // 4.Scaffold-body:当前界面所显示的主要内容Widget组件
+		  body: const Center(
+			// text组件
+			child: Text(
+			  "你好 Flutter",
+			  textDirection: TextDirection.ltr,
+			  style: TextStyle(color: Colors.red, fontSize: 50),
+			),
+		  ),
+		),
+	  ));
+	}
+4.StatelessWidget 无状态组件
+	void main() {
+	  runApp(MaterialApp(
+		home: Scaffold(
+		  appBar: AppBar(
+			title: const Text("Hello Flutter"),
+		  ),
+		  // 2. 直接调用MyApp会有格式提示，需要常量构造函数const
+		  body: const MyApp(),
+		),
+	  ));
+	}
+
+	// 1. 创建自定义组件 无状态组件StatelessWidget,（有状态组件statefulWidget）
+	// 1.1 快捷键 statelessW
+	class MyApp extends StatelessWidget {
+	  const MyApp({super.key});
+
+	  @override
+	  // 1.2继承的抽象函数build
+	  Widget build(BuildContext context) {
+		// 1.3直接return center组件
+		return const Center(
+		  child: Text(
+			"你好 Flutter 我是一个自定义组件",
+			textDirection: TextDirection.ltr,
+			style: TextStyle(color: Colors.red, fontSize: 40),
+		  ),
+		);
+	  }
+	}
+	
+5.text 文本组件
+
+
+
+
+6.container 容器组件
