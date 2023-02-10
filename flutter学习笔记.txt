@@ -87,3 +87,20 @@
 
 
 6.container 容器组件
+
+
+7.加载图片
+
+	7.1
+	
+	7.2
+	
+	7.3 加载本地图片，需要配置 puspec.yaml
+		# 配置本地资源
+		assets:
+			- images/YL3.jpg
+			- images/2.0x/YL1.jpg
+			- images/3.0x/YL2.jpg
+			
+		#调用加载内容
+		Image.asset("images/YL3.jpg")
