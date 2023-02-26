@@ -45,23 +45,41 @@ class TextDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      "你好 flutter 轻轻的我走了，正如我轻轻的来，我挥挥衣袖，作别西边的云彩",
-      style: TextStyle(
-          fontSize: 20,
-          color: Colors.red,
-          fontWeight: FontWeight.w500,
-          fontStyle: FontStyle.italic,
-          // 中划线
-          decoration: TextDecoration.lineThrough,
-          // 中划线颜色
-          decorationColor: Colors.blue),
-      // 文本对齐方式
-      textAlign: TextAlign.left,
-      // 文本显示最大行数
-      maxLines: 2,
-      // 文本溢出省略号显示
-      overflow: TextOverflow.ellipsis,
+    return Column(
+      children: [
+        const Text(
+          "你好 flutter 轻轻的我走了，正如我轻轻的来，我挥挥衣袖，作别西边的云彩",
+          style: TextStyle(
+              fontSize: 20,
+              color: Colors.red,
+              fontWeight: FontWeight.w500,
+              fontStyle: FontStyle.italic,
+              // 中划线
+              decoration: TextDecoration.lineThrough,
+              // 中划线颜色
+              decorationColor: Colors.blue),
+          // 文本对齐方式
+          textAlign: TextAlign.left,
+          // 文本显示最大行数
+          maxLines: 2,
+          // 文本溢出省略号显示
+          overflow: TextOverflow.ellipsis,
+        ),
+        RichText(
+            text: const TextSpan(
+                text: "你好",
+                style: TextStyle(fontSize: 20, color: Colors.black),
+                children: [
+              TextSpan(
+                  text: "我来自外太空",
+                  style: TextStyle(fontSize: 40, color: Colors.blue),
+                  children: [
+                    TextSpan(
+                        text: "自然",
+                        style: TextStyle(fontSize: 20, color: Colors.red))
+                  ])
+            ]))
+      ],
     );
   }
 }

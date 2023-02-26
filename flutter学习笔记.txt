@@ -33,7 +33,7 @@
 			
 3.基础组件
 	3.1 常用
-		3.1.1 text()
+		3.1.1 text(文本)
 			--textDirection(文本方向)
 			--textStyle(文本样式)
 				--colors(字体颜色)
@@ -42,10 +42,10 @@
 			--textAlign(文本对齐)
 			--textOverlow(文本溢出)
 			--maxLines(最大显示行数)
-			--RichText(实现多文本样式同同时存在)
-				--TextSpan(文本样式1)
-				--TextSpan(文本样式2)
-				--TextSpan(文本样式3)
+		3.1.1.2 RichText(实现多文本样式同同时存在)
+				--TextSpan(文本样式1，children[文本样式2])
+					--TextSpan(文本样式2,children[文本样式3])
+						--TextSpan(文本样式3)
 	
 	
 	
