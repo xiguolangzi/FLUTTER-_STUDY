@@ -46,6 +46,21 @@
 				--TextSpan(文本样式1，children[文本样式2])
 					--TextSpan(文本样式2,children[文本样式3])
 						--TextSpan(文本样式3)
+						
+		3.1.2 设置自定义字体
+			1.下载并导入字体
+			https://fonts.google.com
+			2.解压压缩包，并将文件复制到FLUTTER项目中
+			3.在 pubspec.yaml 中声明字体
+				flutter:
+					fonts:
+						-family: SourceSansPro	#字体名称
+						 fonts:
+							-asset:fonts/Source_Sans_Pro/SourceSansPro-Black.ttf	#解压文件存放路径
+							-asset:fonts/Source_Sans_Pro/SourceSansPro-Blackitalic.ttf
+								weight: 400	#weight 属性制定了文件中字体轮廓的字重为100的整数倍
+								style:normal	默认是italic 或 normal
+			
 	
 	
 	
