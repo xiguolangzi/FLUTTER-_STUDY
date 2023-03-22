@@ -255,7 +255,7 @@
 		
 	15.4 引入部分库
 		15.4.1 包含引入 show ，show 后面表示包含引用的内容
-		common.dat
+		common.dart
 			void f1(){
 				print("f1");
 			}
@@ -268,7 +268,7 @@
 				print("f1");
 			}
 		
-		import "./common.dart" show fi,f3;
+		import "./common.dart" show f1,f3;
 		
 		void main(){
 			f1();
@@ -279,7 +279,7 @@
 		
 		
 		15.4.2 排除引入 hide ， hide 后面表示隐藏引用的内容
-		import "./common.dart" hide fi,f3;
+		import "./common.dart" hide f1,f3;
 		
 		void main(){
 			f1();   #报错，因为f1在hide后面被隐藏，所有找不到
