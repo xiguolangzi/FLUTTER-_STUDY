@@ -36,6 +36,28 @@ class ImageDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: [
+        // 加载本地图片
+        Image.asset(
+          "images/2.0x/YL1.jpg",
+          width: 200,
+          height: 300,
+          // 填充方式 fit
+          fit: BoxFit.cover,
+        ),
+        // 加载网络图片
+        Image.network(
+          "https://www.itying.com/themes/itying/images/ionic4.png",
+          width: 200,
+          height: 300,
+          // fit: BoxFit.cover,
+          repeat: ImageRepeat.repeat,
+          // 北京颜色混合的效果
+          colorBlendMode: BlendMode.colorDodge,
+          color: Colors.green,
+        )
+      ],
+    );
   }
 }
