@@ -21,7 +21,8 @@ import 'package:flutter/material.dart';
 // import '06_others/01_cupertino.dart';
 // import '06_others/02_SafeArea.dart';
 // import '07_thirdParty/01_dio.dart';
-import '07_thirdParty/02_swiper.dart';
+// import '07_thirdParty/02_swiper.dart';
+import '07_thirdParty/03_shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());

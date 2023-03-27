@@ -49,12 +49,68 @@ class FulluterSwiperDemo extends StatelessWidget {
       child: ListView(
         children: [
           Container(
+            padding: EdgeInsets.all(10),
             height: 200,
             child: Swiper(
-                itemCount: imgs.length,
-                itemBuilder: (context, index) {
-                  return Image.asset(imgs[index]);
-                }),
+              itemCount: imgs.length,
+              itemBuilder: (context, index) {
+                return Image.asset(
+                  imgs[index],
+                  fit: BoxFit.cover,
+                );
+              },
+              // 自动播放
+              autoplay: true,
+              // 小圆点指示点
+              pagination: const SwiperPagination(),
+              // 左右导航
+              control: const SwiperControl(),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            height: 200,
+            child: Swiper(
+              itemCount: imgs.length,
+              itemBuilder: (context, index) {
+                return Image.asset(
+                  imgs[index],
+                  fit: BoxFit.cover,
+                );
+              },
+              // 自动播放
+              autoplay: true,
+              // 中间大图占宽度比
+              viewportFraction: 0.7,
+              // 两边图片的占比
+              scale: 0.8,
+              // 小圆点指示点
+              pagination: const SwiperPagination(),
+              // 左右导航
+              control: const SwiperControl(),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            height: 200,
+            child: Swiper(
+              itemCount: imgs.length,
+              itemBuilder: (context, index) {
+                return Image.asset(
+                  imgs[index],
+                  fit: BoxFit.cover,
+                );
+              },
+              // 自动播放
+              autoplay: true,
+              // 主题宽度
+              itemWidth: 300,
+              // 轮播图样式 - 层叠效果1
+              layout: SwiperLayout.STACK,
+              itemHeight: 200,
+              // 轮播图样式 - 层叠效果2 需要设置主题 宽高
+              // layout: SwiperLayout.TINDER,
+            ),
           )
         ],
       ),
