@@ -36,6 +36,23 @@ class GridViewCountDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: GridView.count(
+        // 列数
+        crossAxisCount: 2,
+        // reverse: true,
+        // 主轴方向的间距
+        mainAxisSpacing: 5,
+        // 交叉轴方向的间距
+        crossAxisSpacing: 10,
+        // 子组件的纵横比，默认是1
+        childAspectRatio: 0.7,
+        // padding: EdgeInsets.all(10),
+        // 水平方向的padding,也可以设置垂直
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        children:
+            List.generate(10, (index) => Image.asset("images/2.0x/YL1.jpg")),
+      ),
+    );
   }
 }

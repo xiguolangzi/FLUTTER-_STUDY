@@ -1,5 +1,7 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+// ignore: unused_import
+import 'package:dio/dio.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -12,14 +14,14 @@ class Home extends StatelessWidget {
         // 1.1 左侧菜单
         leading: const Icon(Icons.menu),
         // 1.2 头部标题
-        title: const Text("列表"),
+        title: const Text("网络请求"),
         // 1.3 右侧菜单
         actions: const [Icon(Icons.settings), Icon(Icons.search)],
         // 1.4 标题居中
         centerTitle: true,
       ),
       // 2.应用主体
-      body: ListViewBuilderDemo(),
+      body: const DioDemo(),
       // 浮动按钮 结合scaffold使用
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -31,25 +33,28 @@ class Home extends StatelessWidget {
   }
 }
 
-class ListViewBuilderDemo extends StatelessWidget {
-  ListViewBuilderDemo({super.key});
-  final List<Widget> users = List.generate(20,
-      (index) => OutlinedButton(onPressed: () {}, child: Text("姓名 $index")));
+class DioDemo extends StatelessWidget {
+  const DioDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 150,
-      child: ListView.builder(
-          // 列表的长度，决定itemBuilder的index值
-          itemCount: users.length,
-          // 列表的高度
-          itemExtent: 30,
-          // 列表回调函数
-          padding: const EdgeInsets.all(10),
-          itemBuilder: (context, index) {
-            return users[index];
-          }),
+    return Center(
+      child: ElevatedButton(
+          onPressed: () {
+            getIpAddress();
+          },
+          child: const Text("点击发送请求")),
     );
+  }
+
+  void getIpAddress() async {
+    try {
+      const url = "https://httpbin.org/ip";
+      Response response = await Dio().get(url);
+      String ip = response.data["origin"];
+      print(ip);
+    } catch (e) {
+      print(e);
+    }
   }
 }
