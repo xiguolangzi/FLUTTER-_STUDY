@@ -45,7 +45,27 @@ class SharedPreferenceDEMO extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ElevatedButton(onPressed: _incrementCount, child: const Text("递增"))
+          ElevatedButton(onPressed: _incrementCount, child: const Text("递增")),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(onPressed: _decrementCount, child: const Text("递减")),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(onPressed: _removeCount, child: const Text("删除数据")),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(onPressed: _addMyContent, child: const Text("设置字符串")),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(onPressed: _getMyContent, child: const Text("获取字符转")),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(onPressed: _clearContent, child: const Text("清空")),
         ],
       ),
     );
@@ -53,16 +73,74 @@ class SharedPreferenceDEMO extends StatelessWidget {
 
   void _incrementCount() async {
     try {
-      // 解决问题的方法
+      // 解决初始化问题的方法
       // SharedPreferences.setMockInitialValues({});
       // 获取保存实例
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      // 如果counter为空，则赋值counter = 0，
+      // 如果counter为空，需要避空运算符 ?? 0
       int counter = (prefs.getInt("counter") ?? 0) + 1;
       // counter++;
       print("pressed $counter times.");
       await prefs.setInt("counter", counter);
+
       // print(counter);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _decrementCount() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      int counters = prefs.getInt("counter") ?? 0;
+      if (counters > 0) {
+        counters--;
+      }
+      await prefs.setInt("counter", counters);
+      print("pressed $counters times");
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _removeCount() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      // 删除内容
+      await prefs.remove("counter");
+      int counters = prefs.getInt("counter") ?? 0;
+      print("pressed $counters times");
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _addMyContent() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      // 删除内容
+      await prefs.setString("hi", "hello world");
+      String content = prefs.getString("hi") ?? "";
+      print("设置字符串的内容是： $content ");
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _getMyContent() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String content = prefs.getString("hi") ?? "";
+      print("获取字符串的内容是： $content ");
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _clearContent() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
     } catch (e) {
       print(e);
     }
