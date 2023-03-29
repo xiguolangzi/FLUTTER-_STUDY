@@ -24,7 +24,9 @@ import 'package:flutter/material.dart';
 // import '07_thirdParty/02_swiper.dart';
 // import '07_thirdParty/03_shared_preferences.dart';
 // import '08_state/01_StatefulWidget.dart';
-import '08_state/02_dataTable.dart';
+// import '08_state/02_dataTable.dart';
+// import '08_state/03_inheritedWidget.dart';
+import '08_state/04_provider.dart';
 
 void main() {
   runApp(const MyApp());
