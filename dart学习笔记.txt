@@ -28,6 +28,17 @@
 	3.1 dart中默认是公开的；
 	3.2 下划线为私有(私有属性如果在同一个作用域，不起作用)；
 	
+3.1非空运算
+	String? title = null;	#TYPE? -> 标识可以为null
+	String newTitle = title!;	#value! -> 标识不为空，肯定有值
+	bool isEmpty = title?. isEmpty();	#value? -> 如果value不为空，执行value后面的方法
+	String newTitle = title ?? "cat";	#value ?? -> 如果不为空，直接赋值，如果为空赋值"cat"
+	late String title ； #late -> 标识后面可能会赋值
+	#一个?标识可以为空
+	
+	
+	
+	
 4.GET声明的方法：
 	4.1 GET声明的方法，不能加()，访问GET方法和访问属性一样
 5.SET声明的方法：
