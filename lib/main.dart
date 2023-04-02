@@ -30,7 +30,8 @@ import 'package:flutter/material.dart';
 // import '08_state/05_lifecycle.dart';
 // import '09_navigation/01_anonymous.dart';
 // import '09_navigation/02_namedRoute.dart';
-import '09_navigation/03_onGenerateRoute.dart';
+// import '09_navigation/03_onGenerateRoute.dart';
+import '09_navigation/04_arguments.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,41 +52,41 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: "Fasthand"),
       debugShowCheckedModeBanner: false,
 
-      // // 4.1 命名路由 - 声明路由
-      // routes: {
-      //   "home": (context) => Home(),
-      //   "product": (context) => Product(),
-      // },
-      // // 4.2 命名路由 - 默认路由
-      // initialRoute: "home",
-      // // 4.3 命名路由 - 配置未知路由
-      // onUnknownRoute: (settings) =>
-      //     MaterialPageRoute(builder: (context) => const UnkoownPage()),
-
-      // 5.1 动态路由 - 声明路由
-      onGenerateRoute: (settings) {
-        // 5.2 打印路径
-        print("当前路径：" + settings.name.toString());
-        // 5.3 匹配路径，默认"/"
-        if (settings.name == "/") {
-          return MaterialPageRoute(builder: (context) => const Home());
-        }
-        if (settings.name == "/product") {
-          return MaterialPageRoute(builder: (context) => const Product());
-        }
-
-        // 匹配 /product/id 的路由
-        // 解析路径
-        var uri = Uri.parse(settings.name.toString());
-        // 解析后的结果是一个数组 [product,2]
-        print(uri.pathSegments);
-        if (uri.pathSegments.length == 2 &&
-            uri.pathSegments.first == "product") {
-          var id = uri.pathSegments[1];
-          return MaterialPageRoute(builder: (context) => ProductDetail(id: id));
-        }
-        return MaterialPageRoute(builder: (context) => const UnkoownPage());
+      // 4.1 命名路由 - 声明路由
+      routes: {
+        "home": (context) => Home(),
+        "product": (context) => const Product(),
       },
+      // 4.2 命名路由 - 默认路由
+      initialRoute: "home",
+      // 4.3 命名路由 - 配置未知路由
+      onUnknownRoute: (settings) =>
+          MaterialPageRoute(builder: (context) => const UnkoownPage()),
+
+      // // 5.1 动态路由 - 声明路由
+      // onGenerateRoute: (settings) {
+      //   // 5.2 打印路径
+      //   print("当前路径：" + settings.name.toString());
+      //   // 5.3 匹配路径，默认"/"
+      //   if (settings.name == "/") {
+      //     return MaterialPageRoute(builder: (context) => const Home());
+      //   }
+      //   if (settings.name == "/product") {
+      //     return MaterialPageRoute(builder: (context) => const Product());
+      //   }
+
+      //   // 匹配 /product/id 的路由
+      //   // 解析路径
+      //   var uri = Uri.parse(settings.name.toString());
+      //   // 解析后的结果是一个数组 [product,2]
+      //   print(uri.pathSegments);
+      //   if (uri.pathSegments.length == 2 &&
+      //       uri.pathSegments.first == "product") {
+      //     var id = uri.pathSegments[1];
+      //     return MaterialPageRoute(builder: (context) => ProductDetail(id: id));
+      //   }
+      //   return MaterialPageRoute(builder: (context) => const UnkoownPage());
+      // },
     );
   }
 }
