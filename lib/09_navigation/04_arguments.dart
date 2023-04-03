@@ -30,10 +30,12 @@ class Home extends StatelessWidget {
                 onPressed: () => Navigator.pushNamed(context, "/user/2/3/4"),
                 child: const Text("跳转到 未知页面")),
             ElevatedButton(
-                onPressed: () => Navigator.pushNamed(context, "/product/1"),
+                onPressed: () => Navigator.pushNamed(context, "productDetail",
+                    arguments: {"id": 1}),
                 child: const Text("跳转到 商品页面-1")),
             ElevatedButton(
-                onPressed: () => Navigator.pushNamed(context, "/product/2"),
+                onPressed: () => Navigator.pushNamed(context, "productDetail",
+                    arguments: {"id": 2}),
                 child: const Text("跳转到 商品页面-2")),
           ],
         ),
@@ -67,7 +69,7 @@ class Product extends StatelessWidget {
         child: Column(
           children: [
             // ignore: prefer_interpolation_to_compose_strings
-            Text(aguments["title"]),
+            Text("当前参数是：" + aguments["title"]),
 
             ElevatedButton(
                 onPressed: () => Navigator.pop(context),
@@ -80,11 +82,11 @@ class Product extends StatelessWidget {
 }
 
 class ProductDetail extends StatelessWidget {
-  const ProductDetail({super.key, required this.id});
-  final String id;
+  const ProductDetail({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final Map aguments = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       // 1.应用头部
       appBar: AppBar(
@@ -101,7 +103,7 @@ class ProductDetail extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Text("当前商品的 ID 是：$id"),
+            Text("当前商品的 ID 是：${aguments["id"]}"),
             ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text("返回"))

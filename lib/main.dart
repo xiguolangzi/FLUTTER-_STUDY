@@ -31,7 +31,8 @@ import 'package:flutter/material.dart';
 // import '09_navigation/01_anonymous.dart';
 // import '09_navigation/02_namedRoute.dart';
 // import '09_navigation/03_onGenerateRoute.dart';
-import '09_navigation/04_arguments.dart';
+// import '09_navigation/04_arguments.dart';
+import '09_navigation/05_drawer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -46,22 +47,23 @@ class MyApp extends StatelessWidget {
       // 1.任务管理器中应用的名称
       title: "Flutter Demo 01",
       // 2.主体内容
-      // home: const Home(),
+      home: const Home(),
 
       // 3.右上角调试标识
       theme: ThemeData(fontFamily: "Fasthand"),
       debugShowCheckedModeBanner: false,
 
-      // 4.1 命名路由 - 声明路由
-      routes: {
-        "home": (context) => Home(),
-        "product": (context) => const Product(),
-      },
-      // 4.2 命名路由 - 默认路由
-      initialRoute: "home",
-      // 4.3 命名路由 - 配置未知路由
-      onUnknownRoute: (settings) =>
-          MaterialPageRoute(builder: (context) => const UnkoownPage()),
+      // // 4.1 命名路由 - 声明路由
+      // routes: {
+      //   "home": (context) => const Home(),
+      //   "product": (context) => const Product(),
+      //   "productDetail": (context) => const ProductDetail(),
+      // },
+      // // 4.2 命名路由 - 默认路由
+      // initialRoute: "home",
+      // // 4.3 命名路由 - 配置未知路由
+      // onUnknownRoute: (settings) =>
+      //     MaterialPageRoute(builder: (context) => const UnkoownPage()),
 
       // // 5.1 动态路由 - 声明路由
       // onGenerateRoute: (settings) {
