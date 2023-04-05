@@ -104,5 +104,7 @@ flutter:
     - family: Fasthand
       fonts:
         - asset: fonts/Fasthand/Fasthand-Regular.ttf
+        # - asset: fonts/Noto_Sans_SC/NotoSansSC-Regular.otf
+        - asset: fonts/ZCOOL_XiaoWei/ZCOOLXiaoWei-Regular.ttf
           weight: 300  #100的整数
           style: italic
