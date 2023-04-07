@@ -83,6 +83,7 @@ class _TextFielDemoState extends State<TextFielDemo> {
               },
             ),
             TextField(
+              // 加密
               obscureText: true,
               keyboardType: TextInputType.text,
               decoration: const InputDecoration(
