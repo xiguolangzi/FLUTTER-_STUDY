@@ -41,7 +41,8 @@ import 'package:flutter/material.dart';
 // import '10_form/04_TextField.dart';
 // import '10_form/05_calendar.dart';
 // import '10_form/06_form.dart';
-import '10_form/07_form2.dart';
+// import '10_form/07_form2.dart';
+import '11_other/01_Animation.dart';
 
 void main() {
   runApp(const MyApp());
