@@ -43,7 +43,8 @@ import 'package:flutter/material.dart';
 // import '10_form/06_form.dart';
 // import '10_form/07_form2.dart';
 // import '11_other/01_Animation.dart';
-import '11_other/02_staggerAnimation.dart';
+// import '11_other/02_staggerAnimation.dart';
+import '11_other/03_heroAnimation.dart';
 
 void main() {
   runApp(const MyApp());
