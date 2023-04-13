@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// 国际化语言导包 flutter_localizations
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 // import './Hello.dart';
@@ -48,8 +49,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 // import '11_other/02_staggerAnimation.dart';
 // import '11_other/03_heroAnimation.dart';
 // import '10_form/05_calendar.dart';
-import '11_other/04_texti18n.dart';
-import '11_other/CustomLocalizations.dart';
+// import '11_other/04_texti18n.dart';
+// import '11_other/CustomLocalizations.dart';
+import '11_other/05_text_language_page.dart';
+import '11_other/CustomLocalizationsActive.dart';
 
 void main() {
   runApp(const MyApp());
@@ -110,12 +113,16 @@ class MyApp extends StatelessWidget {
       // 6. 国际化
       // 6.1. 本地化代理
       localizationsDelegates: [
+        // 本地化代理 - android
         GlobalMaterialLocalizations.delegate,
+        // 本地化代理 - Widgets
         GlobalWidgetsLocalizations.delegate,
+        // 本地化代理 - IOS
         GlobalCupertinoLocalizations.delegate,
 
-        // 添加自定义文本代理
-        CustomLocalizations.delegate,
+        // 本地化代理 - 文本 - 自定义
+        // CustomLocalizations.delegate,
+        CustomLocalizationsActive.delegate
       ],
 
       // 6.2. 设置支持的语言
@@ -124,6 +131,24 @@ class MyApp extends StatelessWidget {
         Locale("zh", "CN"),
         Locale("es", "ES")
       ],
+
+      // 7.检测当前语言
+      localeResolutionCallback: (locale, supportedLocales) {
+        // 7.1 打印当前语言环境 locale
+        print("deviceLocale -- $locale");
+        print("languageCode -- ${locale!.languageCode}");
+        print("language -- ${locale!.countryCode}");
+        // 7.2 检查设置的语言环境supportedLocales 是否匹配 当前的语言环境locale
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
+            // 7.3 如果有匹配的,则返回设置的语言
+            return supportedLocale;
+          }
+        }
+        // 7.4 如果没有匹配,则返回设置的语言的第一种语言
+        return supportedLocales.first;
+      },
     );
   }
 }
