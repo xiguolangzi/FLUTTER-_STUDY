@@ -241,7 +241,7 @@ class _CalendarDemoState extends State<CalendarDemo> {
               child: const Text(
                 "showDatePicker 组件 -弹出模式 日历calendar - 路径",
                 // 处理中文错字问题
-                locale: Locale("zh", "CN"),
+                // locale: Locale("zh", "CN"),
               )),
           const SizedBox(
             height: 10,

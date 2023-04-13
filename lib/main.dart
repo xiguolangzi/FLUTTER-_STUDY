@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 // import './Hello.dart';
 // import '02_layout/01_Container.dart';
 // import '02_layout/02_column_row.dart';
@@ -44,7 +46,10 @@ import 'package:flutter/material.dart';
 // import '10_form/07_form2.dart';
 // import '11_other/01_Animation.dart';
 // import '11_other/02_staggerAnimation.dart';
-import '11_other/03_heroAnimation.dart';
+// import '11_other/03_heroAnimation.dart';
+// import '10_form/05_calendar.dart';
+import '11_other/04_texti18n.dart';
+import '11_other/CustomLocalizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,7 +60,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       // 1.任务管理器中应用的名称
       title: "Flutter Demo 01",
       // 2.主体内容
@@ -101,6 +106,24 @@ class MyApp extends StatelessWidget {
       //   }
       //   return MaterialPageRoute(builder: (context) => const UnkoownPage());
       // },
+
+      // 6. 国际化
+      // 6.1. 本地化代理
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+
+        // 添加自定义文本代理
+        CustomLocalizations.delegate,
+      ],
+
+      // 6.2. 设置支持的语言
+      supportedLocales: const [
+        Locale("en", "US"),
+        Locale("zh", "CN"),
+        Locale("es", "ES")
+      ],
     );
   }
 }

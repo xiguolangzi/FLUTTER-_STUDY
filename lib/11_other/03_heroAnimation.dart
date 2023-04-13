@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+// 引用跳转界面
 import './ImageDetail.dart';
 
 class Home extends StatelessWidget {
