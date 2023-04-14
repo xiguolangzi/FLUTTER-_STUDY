@@ -1,5 +1,7 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+import 'package:ufo/12_log/02_log.dart';
 import 'CustomLocalizationsActive.dart';
 
 class Home extends StatelessWidget {
@@ -18,23 +20,31 @@ class Home extends StatelessWidget {
         actions: const [Icon(Icons.settings), Icon(Icons.search)],
         centerTitle: true,
       ),
-      body: const HomePage(),
+      body: HomePage(),
     );
   }
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+  var log = MyselfPrinter.logger(HomePage);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
+    return Column(children: [
+      Text(
         // "主页",
         // Localizations.of(context, CustomLocalizations).t("首页"),
         CustomLocalizationsActive.setLanguage(context, "首页"),
         style: const TextStyle(fontSize: 60),
       ),
-    );
+      ElevatedButton(
+          onPressed: () {
+            log.e(" 测试 error 日志打印");
+            log.i(" 测试 info 日志打印");
+            log.w(" 测试 warning 日志打印");
+          },
+          child: const Text("测试打印日志"))
+    ]);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // 国际化语言导包 flutter_localizations
 import 'package:flutter_localizations/flutter_localizations.dart';
+import '12_log/02_log.dart';
 
 // import './Hello.dart';
 // import '02_layout/01_Container.dart';
@@ -55,11 +56,12 @@ import '11_other/05_text_language_page.dart';
 import '11_other/CustomLocalizationsActive.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  var log = MyselfPrinter.logger(MyApp);
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +69,7 @@ class MyApp extends StatelessWidget {
       // 1.任务管理器中应用的名称
       title: "Flutter Demo 01",
       // 2.主体内容
-      home: Home(),
+      home: const Home(),
 
       // 3.右上角调试标识
       // theme: ThemeData(fontFamily: "Fasthand"),
@@ -137,7 +139,15 @@ class MyApp extends StatelessWidget {
         // 7.1 打印当前语言环境 locale
         print("deviceLocale -- $locale");
         print("languageCode -- ${locale!.languageCode}");
-        print("language -- ${locale!.countryCode}");
+        print("language -- ${locale.countryCode}");
+
+        log.v("Verbose log");
+        log.d("DeBug log");
+        log.i("Info log");
+        log.w("Warning log");
+        log.e("Error log");
+        log.wtf("what a terriable failure log");
+
         // 7.2 检查设置的语言环境supportedLocales 是否匹配 当前的语言环境locale
         for (var supportedLocale in supportedLocales) {
           if (supportedLocale.languageCode == locale.languageCode &&
