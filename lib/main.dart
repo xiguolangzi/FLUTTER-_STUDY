@@ -52,8 +52,9 @@ import '12_log/02_log.dart';
 // import '10_form/05_calendar.dart';
 // import '11_other/04_texti18n.dart';
 // import '11_other/CustomLocalizations.dart';
-import '11_other/05_text_language_page.dart';
+// import '11_other/05_text_language_page.dart';
 import '11_other/CustomLocalizationsActive.dart';
+import '13_theme/01_theme.dart';
 
 void main() {
   runApp(MyApp());
@@ -73,6 +74,37 @@ class MyApp extends StatelessWidget {
 
       // 3.右上角调试标识
       // theme: ThemeData(fontFamily: "Fasthand"),
+      theme: ThemeData(
+          appBarTheme: AppBarTheme(
+              backgroundColor: Colors.red[400],
+              titleTextStyle:
+                  const TextStyle(fontSize: 30, color: Colors.black),
+              iconTheme: IconThemeData(
+                size: 30,
+                color: Colors.blueAccent[100],
+              )),
+          // 控制导航颜色
+          primaryColor: Colors.green[200],
+          // 只对老按钮生效，新按钮不生效
+          buttonTheme: ButtonThemeData(
+              buttonColor: Colors.amber[800],
+              textTheme: ButtonTextTheme.primary,
+              splashColor: Colors.green),
+          buttonBarTheme:
+              ButtonBarThemeData(buttonTextTheme: ButtonTextTheme.primary),
+
+          // 字体
+          fontFamily: "Fasthand",
+          textTheme: TextTheme(
+              bodyLarge: TextStyle(
+                fontSize: 50,
+                color: Colors.cyan[600],
+              ),
+              bodySmall: const TextStyle(
+                fontSize: 20,
+                color: Colors.pink,
+              ))),
+
       debugShowCheckedModeBanner: false,
 
       // // 4.1 命名路由 - 声明路由
