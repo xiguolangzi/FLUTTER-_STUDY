@@ -1,6 +1,7 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ufo/12_log/02_log.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -37,6 +38,7 @@ class _FormDemoState extends State<FormDemo> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late String _phone;
   late String _password;
+  var log = MyselfPrinter.logger(_FormDemoState);
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,7 @@ class _FormDemoState extends State<FormDemo> {
                       },
                       // 提交表单时 赋值保存
                       onSaved: (value) {
-                        print(" _phone = value onsave");
+                        log.i(" _phone = value onsave");
                         _phone = value!;
                       },
                     ),
@@ -84,7 +86,7 @@ class _FormDemoState extends State<FormDemo> {
                       },
                       // 提交表单时 赋值保存
                       onSaved: (value) {
-                        print(" _password = value onsave");
+                        log.i(" _password = value onsave");
                         _password = value!;
                       },
                     ),
@@ -93,17 +95,17 @@ class _FormDemoState extends State<FormDemo> {
                         Expanded(
                             child: ElevatedButton(
                                 onPressed: () {
-                                  // 表单校验 _formKey.currentState!.validate() true 货 false
+                                  // 表单校验 _formKey.currentState!.validate() true 或 false
                                   if (_formKey.currentState!.validate()) {
-                                    print("提交成功");
-                                    print(
+                                    log.i("提交成功");
+                                    log.i(
                                         "_formKey.currentState!.save() befor");
                                     // 执行 表单提交
                                     _formKey.currentState!.save();
-                                    print(
+                                    log.i(
                                         "_formKey.currentState!.save() after");
-                                    print(_phone);
-                                    print(_password);
+                                    log.i(_phone);
+                                    log.i(_password);
                                   }
                                 },
                                 child: const Text("提交"))),
