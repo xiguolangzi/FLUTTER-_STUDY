@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:dio/dio.dart';
+import 'package:ufo/12_log/02_log.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -21,7 +22,7 @@ class Home extends StatelessWidget {
         centerTitle: true,
       ),
       // 2.应用主体
-      body: const DioDemo(),
+      body: DioDemo(),
       // 浮动按钮 结合scaffold使用
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -34,7 +35,8 @@ class Home extends StatelessWidget {
 }
 
 class DioDemo extends StatelessWidget {
-  const DioDemo({super.key});
+  DioDemo({super.key});
+  var log = MyselfPrinter.logger(DioDemo);
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +54,9 @@ class DioDemo extends StatelessWidget {
       const url = "https://httpbin.org/ip";
       Response response = await Dio().get(url);
       String ip = response.data["origin"];
-      print(ip);
+      log.i(ip);
     } catch (e) {
-      print(e);
+      log.e(e);
     }
   }
 }

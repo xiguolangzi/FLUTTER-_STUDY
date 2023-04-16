@@ -29,7 +29,7 @@ import '12_log/02_log.dart';
 // import '07_thirdParty/03_shared_preferences.dart';
 // import '08_state/01_StatefulWidget.dart';
 // import '08_state/02_dataTable.dart';
-// import '08_state/03_inheritedWidget.dart';
+import '08_state/03_inheritedWidget.dart';
 // import '08_state/04_provider.dart';
 // import '08_state/05_lifecycle.dart';
 // import '09_navigation/01_anonymous.dart';
@@ -54,7 +54,9 @@ import '12_log/02_log.dart';
 // import '11_other/CustomLocalizations.dart';
 // import '11_other/05_text_language_page.dart';
 import '11_other/CustomLocalizationsActive.dart';
-import '13_theme/01_theme.dart';
+// import '13_theme/01_theme.dart';
+// 引入自定义主题
+import '13_theme/CustomTheme.dart';
 
 void main() {
   runApp(MyApp());
@@ -73,39 +75,76 @@ class MyApp extends StatelessWidget {
       home: const Home(),
 
       // 3.右上角调试标识
-      // theme: ThemeData(fontFamily: "Fasthand"),
-      theme: ThemeData(
-          appBarTheme: AppBarTheme(
-              backgroundColor: Colors.red[400],
-              titleTextStyle:
-                  const TextStyle(fontSize: 30, color: Colors.black),
-              iconTheme: IconThemeData(
-                size: 30,
-                color: Colors.blueAccent[100],
-              )),
-          // 控制导航颜色
-          primaryColor: Colors.green[200],
-          // 只对老按钮生效，新按钮不生效
-          buttonTheme: ButtonThemeData(
-              buttonColor: Colors.amber[800],
-              textTheme: ButtonTextTheme.primary,
-              splashColor: Colors.green),
-          buttonBarTheme:
-              ButtonBarThemeData(buttonTextTheme: ButtonTextTheme.primary),
-
-          // 字体
-          fontFamily: "Fasthand",
-          textTheme: TextTheme(
-              bodyLarge: TextStyle(
-                fontSize: 50,
-                color: Colors.cyan[600],
-              ),
-              bodySmall: const TextStyle(
-                fontSize: 20,
-                color: Colors.pink,
-              ))),
-
       debugShowCheckedModeBanner: false,
+
+      // 8.主题
+      // theme: ThemeData(
+      //   // 8.1 appBar 主题
+      //   appBarTheme: AppBarTheme(
+      //       backgroundColor: Colors.red[400],
+      //       titleTextStyle: const TextStyle(fontSize: 30, color: Colors.black),
+      //       iconTheme: IconThemeData(
+      //         size: 30,
+      //         color: Colors.blueAccent[100],
+      //       )),
+      //   // 8.2控制导航颜色
+      //   primaryColor: Colors.green[200],
+      //   // 8.3只对老按钮生效，新按钮不生效
+      //   buttonTheme: ButtonThemeData(
+      //       buttonColor: Colors.amber[800],
+      //       textTheme: ButtonTextTheme.primary,
+      //       splashColor: Colors.green),
+      //   // 8.4字体
+      //   fontFamily: "Fasthand",
+      //   textTheme: TextTheme(
+      //       titleLarge: TextStyle(
+      //         fontSize: 50,
+      //         color: Colors.cyan[600],
+      //       ),
+      //       titleMedium: const TextStyle(
+      //         fontSize: 50,
+      //         color: Color.fromARGB(255, 6, 236, 140),
+      //       ),
+      //       titleSmall: const TextStyle(
+      //         fontSize: 20,
+      //         color: Color.fromARGB(255, 206, 30, 112),
+      //       ),
+      //       bodyLarge: TextStyle(
+      //         fontSize: 50,
+      //         color: Colors.cyan[600],
+      //       ),
+      //       bodyMedium: const TextStyle(
+      //         fontSize: 50,
+      //         color: Color.fromARGB(255, 6, 236, 140),
+      //       ),
+      //       bodySmall: const TextStyle(
+      //         fontSize: 20,
+      //         color: Color.fromARGB(255, 206, 30, 112),
+      //       )),
+      //   // 8.5 icon 主题
+      //   iconTheme: const IconThemeData(size: 50, color: Colors.red),
+      //   // 8.6 card 主题
+      //   cardTheme: CardTheme(
+      //     margin: const EdgeInsets.all(30),
+      //     color: Colors.grey[300],
+      //     // 阴影颜色
+      //     shadowColor: Colors.blue,
+      //     // 阴影高度
+      //     elevation: 10,
+      //     // 边框
+      //     shape: RoundedRectangleBorder(
+      //         borderRadius: BorderRadius.circular(20),
+      //         side: const BorderSide(color: Colors.grey, width: 1)),
+      //   ),
+      // ),
+
+      // 9. 主题风格 - 浅色主题/深色主题
+      // theme: ThemeData.light(),
+      // darkTheme: ThemeData.dark(),
+
+      // 10. 主题风格 - 浅色主题/深色主题 - 自定义
+      theme: CustomTheme.lightTheme,
+      darkTheme: CustomTheme.darkTheme,
 
       // // 4.1 命名路由 - 声明路由
       // routes: {

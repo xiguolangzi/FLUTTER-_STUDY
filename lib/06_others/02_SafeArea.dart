@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
         // 1.1 左侧菜单
         leading: const Icon(Icons.menu),
         // 1.2 头部标题
-        title: const Text("异性屏幕自适应"),
+        title: const Text("异形屏幕自适应"),
         // 1.3 右侧菜单
         actions: const [Icon(Icons.settings), Icon(Icons.search)],
         // 1.4 标题居中
