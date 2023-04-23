@@ -64,8 +64,7 @@ import '11_other/CustomLocalizationsActive.dart';
 // import '08_state/proveder/01_changeNotifierProveder/changeNotifierProvider.dart';
 // import '08_state/proveder/01_changeNotifierProveder/user_model1.dart';
 // import '08_state/proveder/02_futureProvider/future_provider.dart';
-import '08_state/proveder/03_streamProvider/stream_provider.dart';
-=======
+// import '08_state/proveder/03_streamProvider/stream_provider.dart';
 // 引入自定义主题
 import '13_theme/CustomTheme.dart';
 >>>>>>> 30d11bc0072720a6178f0130d16807f94f38d7a0

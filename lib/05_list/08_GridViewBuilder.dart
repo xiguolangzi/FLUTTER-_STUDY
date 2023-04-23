@@ -9,7 +9,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       // 1.应用头部
       appBar: AppBar(
-        // 1.1 左侧菜单
+        // 1.1 左侧菜单.
         leading: const Icon(Icons.menu),
         // 1.2 头部标题
         title: const Text("网格-命名构造函数的用法"),
