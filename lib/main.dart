@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 // 国际化语言导包 flutter_localizations
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:ufo/08_state/proveder/02_futureProvider/user_future.dart';
-import 'package:ufo/08_state/proveder/03_streamProvider/user_model3.dart';
-import 'package:ufo/08_state/proveder/03_streamProvider/user_stream.dart';
-import '08_state/proveder/02_futureProvider/user_model2.dart';
+import 'package:ufo/08_state/proveder/01_changeNotifierProveder/user_model1.dart';
+import '08_state/proveder/04_multiProvider/user_model4.dart';
 import '12_log/02_log.dart';
 
 // import './Hello.dart';
@@ -50,7 +48,7 @@ import '12_log/02_log.dart';
 // import '10_form/04_TextField.dart';
 // import '10_form/05_calendar.dart';
 // import '10_form/06_form.dart';
-import '10_form/07_form2.dart';
+// import '10_form/07_form2.dart';
 // import '11_other/01_Animation.dart';
 // import '11_other/02_staggerAnimation.dart';
 // import '11_other/03_heroAnimation.dart';
@@ -60,14 +58,13 @@ import '10_form/07_form2.dart';
 // import '11_other/05_text_language_page.dart';
 import '11_other/CustomLocalizationsActive.dart';
 // import '13_theme/01_theme.dart';
-<<<<<<< HEAD
 // import '08_state/proveder/01_changeNotifierProveder/changeNotifierProvider.dart';
 // import '08_state/proveder/01_changeNotifierProveder/user_model1.dart';
 // import '08_state/proveder/02_futureProvider/future_provider.dart';
 // import '08_state/proveder/03_streamProvider/stream_provider.dart';
+import '08_state/proveder/04_multiProvider/multi_provider.dart';
 // 引入自定义主题
 import '13_theme/CustomTheme.dart';
->>>>>>> 30d11bc0072720a6178f0130d16807f94f38d7a0
 
 void main() {
   runApp(MyApp());
@@ -99,10 +96,20 @@ class MyApp extends StatelessWidget {
       //   child: const Home(),
       // ),
 
-      // 8.3. StreamProvider -流提供者 - 默认初始值
-      home: StreamProvider<UserModel3>(
-        create: (context) => UserStream().getStreamUserModel(),
-        initialData: UserModel3(name: "hello"),
+      // // 8.3. StreamProvider -流提供者 - 默认初始值
+      // home: StreamProvider<UserModel3>(
+      //   create: (context) => UserStream().getStreamUserModel(),
+      //   initialData: UserModel3(name: "hello"),
+      //   child: const Home(),
+      // ),
+
+      // 8.4.
+      home: MultiProvider(
+        // 队列里放置多个模型，必须是继承 changeNotifier
+        providers: [
+          ChangeNotifierProvider<UserModel1>(create: (context) => UserModel1()),
+          ChangeNotifierProvider<UserModel4>(create: (context) => UserModel4()),
+        ],
         child: const Home(),
       ),
 
