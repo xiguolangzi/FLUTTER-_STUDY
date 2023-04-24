@@ -53,13 +53,17 @@ class MyBody extends StatelessWidget {
     return Column(
       // 平均分部
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: const [
-        Text(
+      children: [
+        const Text(
           "Material - 安卓风格",
           style: TextStyle(fontSize: 20, color: Colors.blue),
         ),
-        MaterialDemo(),
-        Text(
+        ElevatedButton(
+            onPressed: () {
+              MaterialDemo();
+            },
+            child: const Text("安卓风格")),
+        const Text(
           "cupertino - IOS风格",
           style: TextStyle(fontSize: 20, color: Colors.red),
         ),
