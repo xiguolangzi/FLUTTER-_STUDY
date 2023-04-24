@@ -64,23 +64,13 @@
 	
 	
 	
-	3.2 布局
+	3.2 运行时报错，原因创建软链接时出现了冲突
+	flutter  FileSystemException: Cannot create link, path = 'D:\flutterObject\ufo\windows\flutter\ephemeral\.plugin_symlinks\path_provider_windows' (OS Error: 当文件已存在时，无法创建该文件。
+, errno = 183)  
+	解决办法：
+	1.清除 path_provider_windows 的软链接
+	#flutter clean
+	2.重新运行 flutter packages get 命令以重新安装依赖项和创建软链接：
+	#flutter packages get
+
 	
-	
-	
-	
-	3.3 按钮
-	
-	
-	
-	3.4 图片
-	
-	
-	
-	
-	3.5 列表
-	
-	
-	
-	
-	3.6 其他

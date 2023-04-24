@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 // 国际化语言导包 flutter_localizations
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:ufo/08_state/proveder/01_changeNotifierProveder/user_model1.dart';
-import '08_state/proveder/04_multiProvider/user_model4.dart';
+import 'package:ufo/08_state/proveder/06_changeNotifierProxyProvider/models/book_manager_model.dart';
+import 'package:ufo/08_state/proveder/06_changeNotifierProxyProvider/models/book_model.dart';
+import '08_state/proveder/05_proxyProvider/user_model5.dart';
+import '08_state/proveder/05_proxyProvider/wallet_model.dart';
 import '12_log/02_log.dart';
 
 // import './Hello.dart';
@@ -25,7 +27,7 @@ import '12_log/02_log.dart';
 // import '05_list/06_GridViewCount.dart';
 // import '05_list/07_GridViewExtend.dart';
 // import '05_list/08_GridViewBuilder.dart';
-import '06_others/01_cupertino.dart';
+// import '06_others/01_cupertino.dart';
 // import '06_others/02_SafeArea.dart';
 // import '07_thirdParty/01_dio.dart';
 // import '07_thirdParty/02_swiper.dart';
@@ -63,6 +65,8 @@ import '11_other/CustomLocalizationsActive.dart';
 // import '08_state/proveder/02_futureProvider/future_provider.dart';
 // import '08_state/proveder/03_streamProvider/stream_provider.dart';
 // import '08_state/proveder/04_multiProvider/multi_provider.dart';
+// import '08_state/proveder/05_proxyProvider/proxy_provider.dart';
+import '08_state/proveder/06_changeNotifierProxyProvider/change_notifier_proxy_provider.dart';
 // 引入自定义主题
 import '13_theme/CustomTheme.dart';
 
@@ -103,12 +107,37 @@ class MyApp extends StatelessWidget {
       //   child: const Home(),
       // ),
 
-      // 8.4.
+      // // 8.4. MultiProvider -多模型配置
+      // home: MultiProvider(
+      //   // 队列里放置多个模型，必须是继承 changeNotifier
+      //   providers: [
+      //     ChangeNotifierProvider<UserModel1>(create: (context) => UserModel1()),
+      //     ChangeNotifierProvider<UserModel4>(create: (context) => UserModel4()),
+      //   ],
+      //   child: const Home(),
+      // ),
+
+      // // 8.5 ProxyProvider 模型依赖
+      // home: MultiProvider(
+      //   providers: [
+      //     ChangeNotifierProvider<UserModel5>(create: (context) => UserModel5()),
+      //     // WalletModel 依赖模型 UserModel5
+      //     ProxyProvider<UserModel5, WalletModel>(
+      //       update: (context, userModel5, walletModel) =>
+      //           WalletModel(models: userModel5),
+      //     )
+      //   ],
+      //   child: const Home(),
+      // ),
+
+      // 8.6
       home: MultiProvider(
-        // 队列里放置多个模型，必须是继承 changeNotifier
         providers: [
-          ChangeNotifierProvider<UserModel1>(create: (context) => UserModel1()),
-          ChangeNotifierProvider<UserModel4>(create: (context) => UserModel4()),
+          Provider(create: (context) => BookModel()),
+          ChangeNotifierProxyProvider<BookModel, BookManagerModel>(
+              create: (context) => BookManagerModel(BookModel()),
+              update: (context, bookModel, bookManagerModel) =>
+                  BookManagerModel(bookModel)),
         ],
         child: const Home(),
       ),
