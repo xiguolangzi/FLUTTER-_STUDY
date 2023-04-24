@@ -20,7 +20,7 @@ class BookModel {
   int get lenth => _books.length;
 
   // 根据 ID 获取书籍
-  Book getById(int id) => _books[id - 1];
+  Book getById(int id) => _books[id];
 
   // 根据索引获取数据
   Book getByPosition(int position) => _books[position];

@@ -24,13 +24,13 @@ class BookManagerModel extends ChangeNotifier {
 
   // 添加书籍
   void addFaves(Book book) {
-    _bookIds!.add(book.bookId);
+    _bookIds!.add(book.bookId - 1);
     notifyListeners();
   }
 
   // 删除书籍
   void removeFaves(Book book) {
-    _bookIds!.remove(book.bookId);
+    _bookIds!.remove(book.bookId - 1);
     notifyListeners();
   }
 }
