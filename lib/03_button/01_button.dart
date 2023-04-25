@@ -45,16 +45,20 @@ class ButtonDemo extends StatelessWidget {
               },
               child: const Text("textButton")),
           ElevatedButton(
-              onPressed: () {
-                print("点击 ElevatedButton");
-              },
-              onLongPress: () {
-                print("长按 ElevatedButton");
-              },
-              onHover: (value) {
-                print("虚浮 ElevatedButton");
-              },
-              child: const Text("ElevatedButton")),
+            onPressed: () {
+              print("点击 ElevatedButton");
+            },
+            onLongPress: () {
+              print("长按 ElevatedButton");
+            },
+            onHover: (value) {
+              print("虚浮 ElevatedButton");
+            },
+            child: const Text(
+              "ElevatedButton",
+              // style: TextStyle(color: Colors.black),
+            ),
+          ),
           OutlinedButton(
               onPressed: () {
                 print("点击 OutlinedButton");

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // 国际化语言导包 flutter_localizations
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:ufo/08_state/consumer/01_provider_of/count_notifier1.dart';
 import 'package:ufo/08_state/proveder/06_changeNotifierProxyProvider/models/book_manager_model.dart';
 import 'package:ufo/08_state/proveder/06_changeNotifierProxyProvider/models/book_model.dart';
 import '08_state/proveder/05_proxyProvider/user_model5.dart';
@@ -66,7 +67,9 @@ import '11_other/CustomLocalizationsActive.dart';
 // import '08_state/proveder/03_streamProvider/stream_provider.dart';
 // import '08_state/proveder/04_multiProvider/multi_provider.dart';
 // import '08_state/proveder/05_proxyProvider/proxy_provider.dart';
-import '08_state/proveder/06_changeNotifierProxyProvider/change_notifier_proxy_provider.dart';
+// import '08_state/proveder/06_changeNotifierProxyProvider/change_notifier_proxy_provider.dart';
+// import '08_state/consumer/01_provider_of/provider_of.dart';
+import '08_state/consumer/02_consumer/consumer_demo.dart';
 // 引入自定义主题
 import '13_theme/CustomTheme.dart';
 
@@ -130,15 +133,21 @@ class MyApp extends StatelessWidget {
       //   child: const Home(),
       // ),
 
-      // 8.6
-      home: MultiProvider(
-        providers: [
-          Provider(create: (context) => BookModel()),
-          ChangeNotifierProxyProvider<BookModel, BookManagerModel>(
-              create: (context) => BookManagerModel(BookModel()),
-              update: (context, bookModel, bookManagerModel) =>
-                  BookManagerModel(bookModel)),
-        ],
+      // // 8.6 ChangeNotifierProxyProvider 依赖模型
+      // home: MultiProvider(
+      //   providers: [
+      //     Provider(create: (context) => BookModel()),
+      //     ChangeNotifierProxyProvider<BookModel, BookManagerModel>(
+      //         create: (context) => BookManagerModel(BookModel()),
+      //         update: (context, bookModel, bookManagerModel) =>
+      //             BookManagerModel(bookModel)),
+      //   ],
+      //   child: const Home(),
+      // ),
+
+      // 9.1 provider 消费者
+      home: ChangeNotifierProvider<CountNotifier1>(
+        create: (context) => CountNotifier1(),
         child: const Home(),
       ),
 
@@ -210,9 +219,20 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData.light(),
       // darkTheme: ThemeData.dark(),
 
-      // 10. 主题风格 - 浅色主题/深色主题 - 自定义
-      theme: CustomTheme.lightTheme,
-      darkTheme: CustomTheme.darkTheme,
+      // // 10. 主题风格 - 浅色主题/深色主题 - 自定义
+      // theme: CustomTheme.lightTheme,
+      // darkTheme: CustomTheme.darkTheme,
+
+      theme: ThemeData(
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.pink,
+            textStyle: const TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ),
+      ),
 
       // // 4.1 命名路由 - 声明路由
       // routes: {

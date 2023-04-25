@@ -14,6 +14,7 @@ class BookItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var bookModel = Provider.of<BookModel>(context);
     var book = bookModel.getById(id);
+    int bookNum = book.bookId + 1;
 
     var log = MyselfPrinter.logger(BookItem);
     log.i("调用 BookItem -> 序列id == $id");
@@ -21,7 +22,7 @@ class BookItem extends StatelessWidget {
     return ListTile(
       // 头部
       leading: CircleAvatar(
-        child: Text("${book.bookId}"),
+        child: Text("$bookNum"),
       ),
       // 标题
       title: Text(

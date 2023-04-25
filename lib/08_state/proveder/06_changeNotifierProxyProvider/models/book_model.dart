@@ -6,14 +6,14 @@ class Book {
 
 class BookModel {
   static final _books = [
-    Book(1, "斗罗大陆"),
-    Book(2, "斗破苍穹"),
-    Book(3, "完美世界"),
-    Book(4, "灵剑尊"),
-    Book(5, "火影忍者"),
-    Book(6, "灌篮高手"),
-    Book(7, "西游记"),
-    Book(8, "三国演义"),
+    Book(0, "斗罗大陆"),
+    Book(1, "斗破苍穹"),
+    Book(2, "完美世界"),
+    Book(3, "灵剑尊"),
+    Book(4, "火影忍者"),
+    Book(5, "灌篮高手"),
+    Book(6, "西游记"),
+    Book(7, "三国演义"),
   ];
 
   // 获取书籍长度
