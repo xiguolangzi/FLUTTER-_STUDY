@@ -42,7 +42,9 @@ class ConsumerDemo extends StatelessWidget {
     return Center(
       child: Column(
         children: [
+          // consumer7 可以同事引用7个组建模型
           Consumer<CountNotifier1>(
+            // 1.调用 模型 消费者使用模型数据
             builder: (context, countNotifier1, child) {
               return Column(
                 children: [
@@ -57,9 +59,21 @@ class ConsumerDemo extends StatelessWidget {
                       child: const Text("增加按钮"),
                     ),
                   ),
+                  // 2.不使用模型数据 避免每次模型更新重构 浪费性能
+                  child!,
                 ],
               );
             },
+            // 2.不使用模型数据 避免每次模型更新重构 浪费性能
+            child: Column(
+              children: const [
+                Text("更多组件信息....."),
+                Text("更多组件信息....."),
+                Text("更多组件信息....."),
+                Text("更多组件信息....."),
+                Text("更多组件信息....."),
+              ],
+            ),
           ),
         ],
       ),

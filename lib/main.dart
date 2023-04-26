@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:ufo/08_state/consumer/01_provider_of/count_notifier1.dart';
+import 'package:ufo/08_state/consumer/03_selector/user_model6.dart';
 import 'package:ufo/08_state/proveder/06_changeNotifierProxyProvider/models/book_manager_model.dart';
 import 'package:ufo/08_state/proveder/06_changeNotifierProxyProvider/models/book_model.dart';
 import '08_state/proveder/05_proxyProvider/user_model5.dart';
@@ -69,7 +70,8 @@ import '11_other/CustomLocalizationsActive.dart';
 // import '08_state/proveder/05_proxyProvider/proxy_provider.dart';
 // import '08_state/proveder/06_changeNotifierProxyProvider/change_notifier_proxy_provider.dart';
 // import '08_state/consumer/01_provider_of/provider_of.dart';
-import '08_state/consumer/02_consumer/consumer_demo.dart';
+// import '08_state/consumer/02_consumer/consumer_demo.dart';
+import '08_state/consumer/03_selector/selector_example.dart';
 // 引入自定义主题
 import '13_theme/CustomTheme.dart';
 
@@ -146,8 +148,8 @@ class MyApp extends StatelessWidget {
       // ),
 
       // 9.1 provider 消费者
-      home: ChangeNotifierProvider<CountNotifier1>(
-        create: (context) => CountNotifier1(),
+      home: ChangeNotifierProvider<UserModel6>(
+        create: (context) => UserModel6(),
         child: const Home(),
       ),
 
