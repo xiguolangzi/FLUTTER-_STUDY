@@ -1,6 +1,8 @@
 import 'package:logger/logger.dart';
 import 'package:date_format/date_format.dart';
 
+import 'log_out_text.dart';
+
 class MyselfPrinter extends LogPrinter {
   // 1.类名称参数
   late String className;
@@ -51,8 +53,7 @@ class MyselfPrinter extends LogPrinter {
         dayTime, [yyyy, "-", mm, "-", dd, " ", HH, ":", nn, ":", ss]);
 
     return [
-      colors!(
-          "$dayTimes  [ className: $className ]  --> [ $emoji ] : $message "),
+      colors!("$dayTimes  [ className: $className ] [ $emoji ] : $message "),
     ];
   }
 }
@@ -70,6 +71,7 @@ class LogOutputFile extends LogOutput {
       // 控制台打印
       print(line);
       // 文件写入 --- 待开发
+      LogOutText().appendTextToFile(line);
     }
   }
 

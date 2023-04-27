@@ -1,7 +1,10 @@
 // ignore: file_names
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ufo/08_state/consumer/03_selector/user_model6.dart';
+import 'package:ufo/12_log/02_log.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -25,6 +28,27 @@ class SelectExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var log = MyselfPrinter.logger(SelectExample);
+
+    final paths = "D:/flutterObject/ufo/lib/12_log";
+    var files;
+
+    Directory getDirectory(String path) {
+      return Directory(path);
+    }
+
+    Future<List<FileSystemEntity>> getFiles(path) async {
+      // final files = path.listSync(); //返回目录下的所有文件
+      // 只返回文件
+      path = getDirectory(paths);
+      final files = path.listSync(recursive: false);
+      log.i("logs 下的文件是：$files");
+      log.i("路径是：$path");
+      return files;
+    }
+
+    print(files);
+
     return Center(
       // Selector 中 int 为 userModel6.age 数据类型,支取模型中的AGE值userModel6.age
       child: Selector<UserModel6, int>(
@@ -49,6 +73,11 @@ class SelectExample extends StatelessWidget {
               ),
               // 避免重构不需要的组件
               child!,
+              ElevatedButton(
+                  onPressed: () {
+                    getFiles("D:/flutterObject/ufo/logs");
+                  },
+                  child: Text("调用函数"))
             ],
           );
         },
