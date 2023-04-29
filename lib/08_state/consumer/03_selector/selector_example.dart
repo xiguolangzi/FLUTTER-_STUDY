@@ -30,7 +30,7 @@ class SelectExample extends StatelessWidget {
   Widget build(BuildContext context) {
     var log = MyselfPrinter.logger(SelectExample);
 
-    final paths = "D:/flutterObject/ufo/lib/12_log";
+    final paths = "logs";
     var files;
 
     Directory getDirectory(String path) {
@@ -43,6 +43,7 @@ class SelectExample extends StatelessWidget {
       path = getDirectory(paths);
       final files = path.listSync(recursive: false);
       log.i("logs 下的文件是：$files");
+      log.i("logs 下的文件是：${files[1]}");
       log.i("路径是：$path");
       return files;
     }
