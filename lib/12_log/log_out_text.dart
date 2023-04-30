@@ -7,9 +7,14 @@ import 'package:flutter/services.dart';
 import 'package:ufo/12_log/02_log.dart';
 
 class LogOutText {
-  var log = MyselfPrinter.logger(LogOutText);
+  // var log = MyselfPrinter.logger(LogOutText);
 
-  final path = "logs";
+  final String path;
+  String logInformation;
+  LogOutText(this.logInformation, {this.path = "logs"}) {
+    appendTextToFile();
+  }
+
   final dayTimes = formatDate(
     DateTime.now(),
     [
@@ -26,26 +31,26 @@ class LogOutText {
   //   return file.existsSync();
   // }
 
-  // 获取文件
+  // 创建日志文件
   Future<File> creatLogFiles() async {
+    // 检查日志路径
+    Directory directory = Directory(path);
+    if (!directory.existsSync()) {
+      directory.createSync(recursive: true);
+    }
+    // 创建日志文件
     final filePath = "$path/$dayTimes.log";
     return File(filePath);
   }
 
-  // 追加写入
-  // void appendTextToFile(String text, String filePath) {
-  //   File file = File(filePath);
-  //   file.writeAsStringSync('$text\n', mode: FileMode.append);
-  // }
-
   // 文件追加写入，如果没有文件 新建后追加信息
-  Future<void> appendTextToFile(String logs) async {
+  Future<void> appendTextToFile() async {
     // final filePath = "$path/$dayTimes.text";
     File file = await creatLogFiles();
     // 删除掉文本中的终端控制码
     RegExp exp = RegExp(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]');
-    logs = logs.replaceAll(exp, '');
+    logInformation = logInformation.replaceAll(exp, '');
 
-    file.writeAsStringSync('$logs;\n', mode: FileMode.append);
+    file.writeAsStringSync('$logInformation;\n', mode: FileMode.append);
   }
 }

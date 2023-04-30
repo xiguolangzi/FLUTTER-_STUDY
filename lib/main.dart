@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 // 国际化语言导包 flutter_localizations
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -72,11 +74,24 @@ import '11_other/CustomLocalizationsActive.dart';
 // import '08_state/consumer/01_provider_of/provider_of.dart';
 // import '08_state/consumer/02_consumer/consumer_demo.dart';
 import '08_state/consumer/03_selector/selector_example.dart';
+import '12_log/log_delete.dart';
+// import '14_files/files.dart';
 // 引入自定义主题
 import '13_theme/CustomTheme.dart';
 
 void main() {
-  runApp(MyApp());
+  // 1.系统日志写入
+  FlutterError.onError = (FlutterErrorDetails details) {
+    var log = MyselfPrinter.logger(FlutterError);
+    log.e('Caught error: ${details.exception}\n${details.stack}');
+  };
+  // 2.异步日志获取
+  runZonedGuarded(() => runApp(MyApp()), (error, stack) {
+    var log = MyselfPrinter.logger(FlutterError);
+    // 处理逻辑
+    log.e('Caught error: $error\n$stack');
+  });
+  // runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -85,6 +100,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 日志清理
+    DeleteLogFiles(days: 2, path: "logs").deleteNotLogFiles();
+
     return MaterialApp(
       // 1.任务管理器中应用的名称
       title: "Flutter Demo 01",

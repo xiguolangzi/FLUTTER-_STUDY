@@ -29,26 +29,10 @@ class SelectExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var log = MyselfPrinter.logger(SelectExample);
-
-    final paths = "logs";
-    var files;
-
-    Directory getDirectory(String path) {
-      return Directory(path);
+    addLogs() {
+      log.i("新增日志文件.........");
+      print("新增日志文件.........");
     }
-
-    Future<List<FileSystemEntity>> getFiles(path) async {
-      // final files = path.listSync(); //返回目录下的所有文件
-      // 只返回文件
-      path = getDirectory(paths);
-      final files = path.listSync(recursive: false);
-      log.i("logs 下的文件是：$files");
-      log.i("logs 下的文件是：${files[1]}");
-      log.i("路径是：$path");
-      return files;
-    }
-
-    print(files);
 
     return Center(
       // Selector 中 int 为 userModel6.age 数据类型,支取模型中的AGE值userModel6.age
@@ -76,9 +60,9 @@ class SelectExample extends StatelessWidget {
               child!,
               ElevatedButton(
                   onPressed: () {
-                    getFiles("D:/flutterObject/ufo/logs");
+                    addLogs();
                   },
-                  child: Text("调用函数"))
+                  child: Text("调用函数-打印日志"))
             ],
           );
         },
