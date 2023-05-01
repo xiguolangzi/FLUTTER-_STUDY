@@ -80,15 +80,17 @@ import '12_log/log_delete.dart';
 import '13_theme/CustomTheme.dart';
 
 void main() {
-  // 1.系统日志写入
+  // 0. 日志清理
+  DeleteLogFiles(days: 2, path: "logs").deleteNotLogFiles();
+  // 1. 系统日志写入
   FlutterError.onError = (FlutterErrorDetails details) {
     var log = MyselfPrinter.logger(FlutterError);
     log.e('Caught error: ${details.exception}\n${details.stack}');
   };
-  // 2.异步日志获取
+  // 2. 异步日志获取
   runZonedGuarded(() => runApp(MyApp()), (error, stack) {
     var log = MyselfPrinter.logger(FlutterError);
-    // 处理逻辑
+    // 处理逻辑---
     log.e('Caught error: $error\n$stack');
   });
   // runApp(MyApp());
@@ -100,9 +102,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 日志清理
-    DeleteLogFiles(days: 2, path: "logs").deleteNotLogFiles();
-
     return MaterialApp(
       // 1.任务管理器中应用的名称
       title: "Flutter Demo 01",

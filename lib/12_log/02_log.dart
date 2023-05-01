@@ -7,19 +7,22 @@ import 'log_out_text.dart';
 class MyselfPrinter extends LogPrinter {
   // 1.类名称参数
   late String className;
+
   // 2.实例化
   MyselfPrinter(this.className);
 
   // 外界调用的静态方法
   static Logger logger(Type type) => Logger(
-      // 选择log打印方法
-      printer: MyselfPrinter(type.toString()),
-      // 打印级别控制
-      // level: Level.warning,
-      // 过滤器：什么环境下打印日志 -- ProductionFilter 生产环境、DevelopmentFilter 开发环境
-      filter: ProductionFilter(),
-      // 输出日志到指定目的
-      output: LogOutputFile());
+        // 选择log打印方法
+        printer: MyselfPrinter(type.toString()),
+        // 打印级别控制
+        // level: Level.warning,
+        // 过滤器：什么环境下打印日志 -- ProductionFilter 生产环境、DevelopmentFilter 开发环境
+        filter: ProductionFilter(),
+        // 输出日志到指定目的
+        output: LogOutputFile(),
+        level: Level.info,
+      );
 
   // 3.1 自定义 emoji
   static final levelEmojis = {
@@ -78,8 +81,9 @@ class LogOutputFile extends LogOutput {
 
   @override
   void destroy() {
-    super.destroy();
+    // super.destroy();
     // 文件清理 -- 待开发
-    // DeleteLogFiles(days: 2, path: "logs").deleteNotLogFiles();
+    print("内部清理日志文件");
+    DeleteLogFiles(days: 2, path: "logs").deleteNotLogFiles();
   }
 }
