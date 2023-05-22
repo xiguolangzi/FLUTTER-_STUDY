@@ -1,0 +1,488 @@
+1.数据库系统 - 关系模型
+	1.1 有三部分组成：表基本结构 基本操作 完整性约束
+	1.2 基本操作：
+		1.2.1 集合操作
+			∪	并	union
+				必须满足并相容性：两个表的 属性数量一致，属性一致；
+				并之后去掉重复的元素；
+				A ∪ B = B ∪ A;
+			∩	交	intersection
+				A ∩ B = A - (A-B) = B - (B-A)
+				表A 和 表B 的公共部分；
+			－	差	differnce
+				A - B = 属于表A 并 不属于表B的 元素；
+				A-B != B-A;
+			×	广义笛卡尔积	product
+				A * B = 表A 与 表B 所有元组 可能的组合 = 两个表的 列数相加 、行数相乘；
+				A*B = B*A;
+			÷	除	division
+				表A 属性 包含 表B 的属性，A ÷ B = A的属性 - B的属性 = 剩余的属性 ;
+				元组值 = 剩余属性的元组 和 B属性的所有元组 分别组合起来形成新元组 必须在 A属性的元组中；
+				应用：查询同学选修的全部课程的学生，全部所有的查询；
+			σ	更名操作
+			
+		1.2.2 关系操作：
+			∂	选择	selection
+				满足给定条件的元组构成(元组：行值)；
+				有执行顺序
+			π	投影	projection
+				πa3(A):A表的a3列的值；
+				取列的值；
+				消除重复元组；
+			θ	连接	join
+				连接优化效果好，优先采用连接操作；
+				等值连接； 先 笛卡尔积 -> 再进行等值连接 -> 投影；
+				自然连接；等值连接 -> 去掉重复属性（连接属性去掉重复列 保留一列）；
+			外连接 outer-join:
+				自然连接 的基础上 + 失配元组(没有匹配的用null填充)；
+				左外连接：自然连接 + 左侧表中失配的元组；
+				右外连接：自然连接 + 右侧表中失配的元组；
+				全外连接：自然连接 + 两侧表中失配的元组；
+					
+			
+	1.3 完整性约束：
+		实体完整性：
+			主码的属性值不能为空；
+		参照完整性
+			外码的属性值可以为空；
+			外码如果不为空，必须是另一个表主键的其中值；
+		用户自定义完整性
+			用户根据应用环境自定义属性的取值范围的约束；
+	1.4 表基本结构
+		关系 满足 笛卡尔积 的 子集；
+		关系 中不可以有重复值；
+		关系 满足 第一范式(属性不可再分)；
+		候选码 -> 唯一ID;
+		主键：若干候选码中的其中一个，也叫主码，比候选码更严格；
+		外键：外码，另外一个表中的主码，连接关系的纽带；
+		
+	1.5 关系演算
+	
+	
+2.SQL
+	2.1 子查询：
+		2.1.1  <=ALL(select .....)	最小，>=ALL(select .....)	最大
+		2.1.2 in  与 =some(select... )	是等价的
+		2.1.3 not in 与 <>all(select...)	是等价的
+		
+		[not]exists(子查询)
+			select distinct sname from student where exists (select .....);
+		
+		like% %like% %like
+		
+	2.2 结果计算
+	select 列表/表达式/聚合函数 from .....
+	聚合函数：count(*)  sum(列名)  avg(列名)  max(列名)  min(列名)
+	
+	分组：
+		group by 列名(分组条件)	//按指定列名分组
+		having	分组过滤
+	
+	union	并
+		select * form a 
+		union
+		select * from a where ...
+	intersect	交
+		select * form a 
+		intersect
+		select * from a where ...
+	except	差
+		select * form a 
+		except
+		select * from a where ...
+		
+	2.3 空值处理
+		空值检测
+			is null / is not null  
+		空值不能进行运算，空格不是空null
+		聚合函数 忽略null值，只有count会把null 算进去；
+		
+	2.4 内外连接
+		from 后面是表的连接
+		inner join	//关系代数中的θ连接
+		left outer join	//左外连接，左表都出现在结果元组中
+		right outer join	//右外连接，右表都出现在结果元组中
+		full outer join	//全外连接，左右两表都出现在结果元组中
+	2.5 内外连接条件
+		natural	//自然连接
+			出现在结果关系中的两个连接关系的元组在公共属性上取值相等，且公共属性只出现一次
+		on<连接条件>
+			取值满足条件，且公共属性出现两次
+		using(col1,col2,...coln)
+	2.6 排序
+		order by 列名 asc/desc 
+	
+3. 视图
+	3.1 创建视图
+		creat View 视图名(视图列1，视图列2，...视图列n) AS (select * form 表名 where ......)；
+		可以通过视图 隐藏表的关键信息；
+	3.2 视图查询
+		SQL和表查询一样
+	3.3 视图更新
+		视图不保存数据，更新视图实际还是需要更新表数据，所以视图包含聚合函数的内容不能更新；
+		视图没有基本表的主键信息，也不可以更新；
+		视图由单一基础表的列组成，且有主键 才可以更新，确实的信息用null填充；
+	3.4 删除视图
+		drop view 视图名；
+		drop table 表名；
+		drop database 数据库名；
+	
+4. sql 完整性 和 安全性
+	4.1 完整性
+			语义完整性、并发控制、安全控制、DB故障恢复
+	4.2 静态约束：
+		·	表完整性、列完整性
+			= O表或列、P需要定义、A更新时检查(默认)、R拒绝(默认)	//所以只需定义约束就好了
+	
+	4.3 列约束 Col_constr
+		{NOT NULL |									//列值非空
+			[CONSTRAINT constraintname]				//为约束命名，便于以后撤销
+				{UNIQUE								//列唯一值
+				|PRIMARY_KAY						//列为主键
+				|CHECK(search_cond)					//列值满足条件，条件只能使用列当前值
+				|REFERENCES tablename [(colname)]	//引用另一表tablename的列colname的值，关联外键
+					[NO DELETE{CASCADE|SET NULL}]	//外键所在的表的主键被删除后，对应的操作：NO DELETE CASCADE 删除记录，NO DELETE SET NULL 将引用的外键更新成null;
+				}
+		}
+		举例：
+		create Table Student(
+			S# char(8) not null unique,
+			Ssex char(2) constraint ctssex check(Ssex = '男' or Ssex = '女'),
+			sage integer check(sage >= 1 and sage <150 ),
+			D# char(2) references Dept(D#) on delete cascade,
+		);
+	
+	4.4 表约束 table_constr
+			[CONSTRAINT constraintname]				//为约束命名，便于以后撤销
+				{UNIQUE	(colname{,colname...})		//几列值组合在一起是唯一的
+				|PRIMARY_KAY (colname{,colname...})	//几列联合为主键
+				|CHECK(search_condition)			//元组多列值共同满足条件，条件只能使用同一元组不同列的当前值
+				
+				|foreign key (colname{,colname...})	//若干个外键
+					REFERENCES tablename [((colname{,colname...}))]	//引用另一表tablename的多个列colname的值，关联外键
+					[NO DELETE{CASCADE|SET NULL}]	//外键所在的表的主键被删除后，对应的操作：NO DELETE CASCADE 删除记录，NO DELETE SET NULL 将引用的外键更新成null;
+				}
+		举例：
+		Create Table SC(
+			S# char(8),
+			C# char(3),
+			Score float(1) constraint ctscore check （Score >=0.0 and Score <= 100.0),
+			//下面是设置表的约束
+			foreign kay(S#) references student(S#) on delete cascade,
+			foreign kay(C#) references course(C#) on delete cascade
+		)
+		
+		check (可以是子查询语句)
+		
+	4.5 修改表
+			Alter Table tblname
+				//增加列
+				[ADD (colname datatpe [default {default_const|null}])]
+				//删除列
+				[DROP {COLUMN colname | (colname{,colname...})}]
+				//修改、追加约束
+				[MODIFY (colname datatpe [default {default_const|null}])]
+				//增加约束
+				[ADD CONSTRAINT constr_name]
+				//撤销约束
+				[DROP CONSTRAINT constr_name]
+				[DROP PRIMARY_KAY]
+	4.6. 断言 ASSERTION 
+		4.6.1 断言语法
+			Create ASSERTION <列名> CHECK <断言条件>;
+			举例：
+			creat assertion sum_constrain check (
+			not exsite(select * form branch where .....)
+			);
+		4.6.2 数据库有更新就会调用断言，所以会增加数据库负担，影响查询速度；
+
+5. 触动态约束
+	5.1 触发器 Trigger
+	5.2 语法：
+	CREATE TRIGGER trigger_name 												//定义触发器名字 trigger_name
+		BEFORE | AFTER {INSERT | DEKETE | UPDATE [OF colname{,colname...}]}		//指定操作 之前或之后 执行触发器
+		ON tablename 															//指定触发器约束条件的表
+		[REFERENCING corr_name+def{,corr_name_def...}]							//约束表对应 更新前、更新后 的元组值
+		[FOR EACHROW | FOR EACH STATEMENT]										//检查约束条件
+		[WHEN (search_condition)]										
+			{statement															//满足约束条件后，触发器执行的语句
+			|BEGIN ATOMIC statement;{statement;...} END}
+			
+	5.3 举例：
+		5.3.1 设计一个触发器当进行teacher表更新元组时，使其工资只能升不能降
+		create trigger teacher_chgsal											//定义触发器名字 teacher_chgsal
+			before update of salary												//指定操作 修改 salary 之前 执行触发器
+			on teacher															//指定触发器约束条件的表 teacher
+			referencing new x , old y											//表teacher 更新后的元组值 x、更新前的元组值 y
+			for each row when (x.salary < y.salary)								//检查每一行元组，当 x.salary < y.salary
+			begin
+				raise_application_error(-20003,'invalid salary on update');		//满足约束条件 -> 执行抛出错误处理的操作(Oracl)
+			end;
+		5.3.2 学生易学课程门数，初始值为0，以后每选择一门课都对其增加1
+		ceate trigger sumc after insert on sc
+			referencing new row newi
+			for each row
+				begin
+					update student set SumCourse = SumCourse +1 where S# = newi.S#;
+				end;
+		5.3.3 当删除某一同学，该同学的所有选课也一并删除
+		create trigger delS# after delete on student
+			referencing old oldi
+			for each row
+				begin
+					delete sc where S# = oldi.S#;
+				end;
+		
+6. 数据库 - 自主 安全性
+	6.1安全性的要素
+		AccessRule ::= ( S, O, T, P)
+		S : 请求主体 - 用户   
+		O ：访问对象 - 表指定信息
+		T ：访问权限 - 增删改查权限
+		P ：谓词	 - UserId 约束条件
+	
+	6.2 实现方式
+		6.2.1 存储矩阵
+			行：访问对象
+			列：请求主体
+			值：访问权限
+		6.2.2 视图
+			通过视图选择性展示数据表信息
+			create view EmpVi as select * from Employee where p# = UserId;
+	6.3 用户级别
+		用户：
+			超级用户：级别1、2、3
+			账户级别：级别1、2、3
+			普通用户：级别1、2
+		级别：
+			级别1：select
+			级别2：insert  update delete
+			级别3：create alter drop
+	6.4 授权命令
+		6.4.1 语法：
+		GRANT{all privileges | privilege{,privilege...}}
+			ON [TABLE] tablename | viewname
+			TO {public | userid{,userid...}}
+			[WITH GRANT OPTION];
+		privileges	:	指权限（select | insert | update | delete | all privileges）
+		public	:	指所有有效用户
+		userid	：	某一个用户账户，由DBA创建的合法账户
+		WITH GRANT OPTION	：	允许被授权者传播这些权限
+		
+		6.4.2举例：
+		高级领导Emp0001,部门领导Emp0021 ，员工管理员 Emp2001，收发员 Emp5001(均为UserId,也即是员工的P#),员工表Employee ,对应不同的视图 EmpV1 EmpV2
+		Grant all privileges On Employee To Emp2001;
+		Grant select On EmpV2 To Emp5001;
+		Grant select On EmpV1 To public;
+	6.5 收回授权命令
+		6.5.1 语法：
+		REVOKE {all privileges | privilege{,privilege...}}
+		ON [TABLE] tablename | viewname
+		FROM {public | userid{,userid...}}
+		
+		6.5.2 举例：
+		revoke select on employee from userB;
+	6.6 授权过程
+		第一步：DBA 创建 DB，并为每一个用户创建一个账户
+			假设创建五个用户：userA userB userC userD userE
+		第二步：DBA 授予用户 账户级别 的权利
+		第三步：具有 账户级别 的用户，可以创建表和视图
+		第四步：用户之间权限传播
+	
+	6.7. 数据库 - 强制 安全性	
+		用户等级
+	
+7. 嵌入式SQL
+	7.1 高级语言 + SQL
+	7.2 事务：
+		一条或多条SQL语句的一次执行看做一个事务；
+		commit / rollback 结束事务标识；
+	7.3
+	
+	
+	7.4数据集 与 游标
+	7.4.1 单行
+		select  .表列名. into.高级语言的变量. from .. where...；
+	7.4.2 多行结果
+		游标 Cursor
+		游标的使用：
+			声明游标 exec sql DECLARE cur_student CURSOR FOR select Sno,Sname,Sclass from Student where Sclass = '035101';
+			打开游标 exec sql OPEN cur_student;
+			执行查询 exec sql FETCH cur_student INTO 函数变量；
+			关闭游标 exec sql CLOSE cur_student;
+			
+			游标可以一次声明，多次开启关闭；
+		示例：
+			// 1.设置SQL通信区 sqlca
+			exec sql include sqlca;
+			// 2.声明变量
+			exec sql begin declare section;
+				char cust_id[5] , agent_id[14];
+				double dollar_sum;
+			exec sql end declare section;
+			
+			--- 执行主程序 main ---
+			--- 输入参数：char cid_prompt[]="please enter customer ID:" ---
+			
+			// 3.声明游标
+			exec sql declare agent_dollars cursor for select aid , sum(dollars) from orders where cid = :cust_id group by aid;
+			// 4.执行报错处理 - 状态捕获
+			exec sql whenever sqlerror goto report_error;
+			// 5.连接数据库
+			exec sql connect to testdb;
+			// 6.未找到结果时，结束
+			exec sql whenever not found goto finish;
+			
+			--- 输入循环处理 ---
+			while ((prompt(cid_prompt,cust_id,4)) >= 0){
+				// 7.打开游标
+				exec sql open agent_dollars;
+				// 8.取游标记录进行赋值
+				while(True){
+					exec sql fetch agent_dollars into :agent_id , :dollar_sum;
+					print(agent_id,dollar_sum);
+				}
+				// 9.执行结束 关闭游标
+				finish: exec sql close agent_dollars;
+				// 10.执行提交操作
+				exec sql commit work;
+			}
+			
+			// 11.断开连接数据库
+			exec sql disconnect current;
+			// 12.状态处理语句
+			report_error：
+				print_dberror();
+				exec sql rollback;
+				exec sql disconnect current;
+				return 1;
+	7.4.3 增删改查
+		示例 - 修改：
+			方法1 - 查找更新：
+				exec sql update syudent s set sclass = '035102' where s.sclass = '034101';
+			方法2 - 定位更新：
+				exec sql declare stud cursor for
+					select * form student s where s.sclass = '034101' for update of sclass;
+				exec sql open stud;
+				while(true){
+					exec sql fetch stud into :vSno , :vSname , :vSclass;
+					exec sql update student set sclass = '035102' where current of stud;
+				}
+		示例 - 删除：
+			方法1 - 查找删除：
+				exec sql delete from syudent s  where s.sclass = '034101';
+			方法2 - 定位删除：
+				exec sql declare stud cursor for
+					select * form student s where s.sclass = '034101' for update of sclass;
+				exec sql open stud;
+				while(true){
+					exec sql fetch stud into :vSno , :vSname , :vSclass;
+					exec sql delete from student where current of stud;
+				}
+		示例 - 插入：
+			方法1 - 查找插入：
+				exec sql insert into syudent s  (columnname...) values (values...);
+				
+	7.4.4 状态捕获
+		状态捕获语句
+			exec sql whenever condition action;
+			状态 condition 分类：
+				sqlerror
+				notfound
+				sqlwarning
+			执行 action 分类：
+				continue
+				goto
+				stop
+				do 函数 或 call 函数
+		捕获语句的作用域：
+			whenever 开始 --- 到下一个 whenever 结束；
+			
+			容易引发无线循环 - 处理：
+			int main(){
+				exec sql .......;
+				exec sql whenever sqlerror goto handle_error;
+				exec sql .......;
+				
+				handle_error:
+					exec sql whenever sqlerror continue; //如果下面的语句出错，则继续执行 不再调用 handle_error
+					exec sql ....;
+					return -1;
+			}
+		
+		状态记录 sqlcode:
+			sqlcode == 0	//seccessful call;
+			sqlcode < 0		//error
+			sqlcode > 0		//warning
+			
+8. 动态SQL
+	8.1 动态构造示例
+		8.1.1 用户输入条件
+			对象.属性：
+				复选框（true/false）
+					cbx_id.checked
+					cbx_name.checked
+					cbx_agest.checked
+					cbx_sex.checked
+				文本框
+					sle_id.text
+					sle_name.text
+					sle_agest.text
+					sle_ageed.text
+					sle.sex.text
+				
+		8.1.2 构造动态SQL语句
+			string str_temp;
+			int firstlag = 0;	//是否已有条件，如果有则条件拼接字符串需要加 and  ，否则不需要加 and
+			str_temp = "";
+			
+			str_temp = "select * from student where";
+			
+			if(cbx_id.checked = true and len(trim(sle_id.text))>0 )	// 判断勾选，且输入内容 ；trim去空格函数
+				then
+				str_temp = str_temp + "(sid like '" + trim(sle_id.text) + "')" ;	//模糊查询like
+				firstlag = 1 ;	//状态表示已有查询条件
+			end if; 
+			
+			if (cbx_name.checked = true  and  len(trim(sle_name.text))>0) then
+				if(firstlag = 1) then
+					str_temp = str_temp + "and (sname like'" + trim(sle_name.text) + "')";
+				else
+					str_temp = str_temp + "(sanme like'" + trim(sle_name.text) + "')";
+					firstlag = 1 ;
+				end if;
+			end if;
+			
+			......
+			
+			sqltext = str_temp;
+		
+		
+		8.1.3 显示多台SQL结果
+			exec sql execute immediate sqltext;	// 立即执行sqltext语句
+			exec sql commit release;
+		
+		
+		
+			
+				
+			
+			
+			
+			
+			
+			
+
+
+		
+			
+		
+		
+		
+	
+	
+		
+			
+		
+	
+		
